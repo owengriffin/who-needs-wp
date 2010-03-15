@@ -38,7 +38,7 @@ module WhoNeedsWP
           # Remove the author from the post text
           markdown.gsub! /^[aA]uthor: .*$/, ''
         end
-        #post[:markdown] = RDiscount.new(markdown, :smart, :generate_toc)
+#        post[:markdown] = RDiscount.new(markdown, :smart, :generate_toc).to_html
         post[:markdown] = MakersMark.generate(markdown)
         post[:html] = @template['post'].render(Object.new, {
                                                 :post => post, 

@@ -1,0 +1,40 @@
+#!/bin/ruby
+
+require 'rubygems'
+require 'sequel'
+require 'logger'
+
+require 'mysql'
+require 'ftools'
+
+
+database = ARGV[0]
+user = ARGV[1]
+password = ARGV[2]
+prefix = ARGV[3]
+
+dbh = Mysql.real_connect("localhost", user, password, database)
+res = dbh.query("SELECT DISTINCT post_parent FROM wp_#{prefix}_posts")
+posts = []
+while row = res.fetch_row do
+  posts << row[0]
+end
+puts posts.inspect
+posts0 = []
+posts.each do |post_id|
+  res = dbh.query("SELECT post_title, post_date, post_content FROM wp_#{prefix}_posts WHERE post_parent ='#{post_id}' ORDER BY ID DESC LIMIT 1")
+  row = res.fetch_row
+  posts0 << {
+    :id => post_id,
+    :title => row[0],
+    :date => Date.parse(row[1]),
+    :content => row[2]
+  }
+end
+posts0.each do |post|
+  dir = "#{post[:date].strftime('%Y')}/#{post[:date].strftime('%m')}/#{post[:date].strftime('%d')}"
+  File.makedirs dir
+  File.open(dir + "/" + post[:title].gsub(/ /, '_') + ".markdown", "w") do |file|
+    file.puts post[:content]
+  end
+end

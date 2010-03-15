@@ -7,4 +7,5 @@
   .author
     by
     = post[:author]
-  .content= post[:markdown]
+  .content
+    ~ post[:markdown]
