@@ -10,7 +10,12 @@ begin
     gem.email = "owen.griffin@gmail.com"
     gem.homepage = "http://github.com/owengriffin/who-needs-wp"
     gem.authors = ["Owen Griffin"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_dependency('rdiscount', '>= 1.5.8')
+    gem.add_dependency('haml', '>= 2.2.20')
+    gem.add_dependency('twitter', '>= 0.8.4')
+    gem.add_dependency('nokogiri', '>= 1.4.1')
+    gem.add_dependency('open4', '>= 1.0.1')
+    gem.add_dependency('makers-mark', '>= 0.1.1')
     gem.files = ["lib/who-needs-wp.rb", "lib/who-needs-wp/*.rb", "lib/who-needs-wp/**/*"]
   end
   Jeweler::GemcutterTasks.new
