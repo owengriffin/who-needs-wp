@@ -1,0 +1,10 @@
+
+.post
+  %h2.title
+    %a{:href => "#{options[:url]}/#{post[:filename][:generated]}"}= post[:title]
+  .date
+    = post[:created_at].strftime('%Y-%m-%d')
+  .author
+    by
+    = post[:author]
+  .content= post[:markdown]

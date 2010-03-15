@@ -5,13 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "who-needs-wp"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Who needs Wordpress? A static website generator based on Markdown and Git}
+    gem.description = %Q{A static web site generator.}
     gem.email = "owen.griffin@gmail.com"
     gem.homepage = "http://github.com/owengriffin/who-needs-wp"
     gem.authors = ["Owen Griffin"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.files = ["lib/who-needs-wp.rb", "lib/who-needs-wp/*.rb", "lib/who-needs-wp/**/*"]
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

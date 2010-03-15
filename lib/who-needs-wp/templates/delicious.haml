@@ -1,0 +1,6 @@
+%h2 Delicious
+%ul
+  - posts.each do |post|
+    %li
+      %span.date= post[:date].strftime('%Y-%m-%d')
+      %a.title{:href => post[:url], :title => post[:title]}= post[:title]

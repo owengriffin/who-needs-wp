@@ -1,0 +1,31 @@
+!!! Strict
+%html
+  %head
+    %link{:rel => "stylesheet", :type => "text/css", :href => "#{options[:url]}/style.css"}/
+    %title
+      = options[:title]
+      - if defined? title
+        \-
+        = title
+    - if defined? options[:stylesheet]
+      %link{:rel => "stylesheet", :type => "text/css", :href => "#{options[:url]}/#{options[:stylesheet]}"}/
+    %meta{:"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
+  %body
+    #doc4.yui-t2
+      #hd
+        %h1
+          %a{:href => "#{options[:url]}/index.html"}= options[:title]
+      #bd
+        #yui-main
+          .yui-b
+            .yui-gc
+              .yui-u.first
+                =content
+              .yui-u
+                =sidebar
+        .yui-b
+          
+      #ft
+        Generated using who-needs-wp
+          
+          

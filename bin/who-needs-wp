@@ -1,0 +1,21 @@
+#!/bin/ruby
+$: << File.expand_path(File.dirname(__FILE__) + "/../lib")
+
+require 'rubygems'
+require 'who-needs-wp.rb'
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: who-needs-wp [options]"
+  
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+
+  opts.on('-s', '--stylesheet STYLESHEET', 'Include STYLESHEET in the output') do |stylesheet|
+    options[:stylesheet] = stylesheet
+  end
+end.parse!
+
+WhoNeedsWP::generate(YAML.load_file('.who-needs-wp.yaml').merge(options))

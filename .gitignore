@@ -19,3 +19,7 @@ rdoc
 pkg
 
 ## PROJECT::SPECIFIC
+*.sass-cache
+*.gemspec
+*.html
+test/style.css
