@@ -20,6 +20,6 @@ pkg
 
 ## PROJECT::SPECIFIC
 *.sass-cache
-*.gemspec
+#*.gemspec
 *.html
 test/style.css
