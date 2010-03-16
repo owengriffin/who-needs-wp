@@ -16,6 +16,10 @@ OptionParser.new do |opts|
   opts.on('-s', '--stylesheet STYLESHEET', 'Include STYLESHEET in the output') do |stylesheet|
     options[:stylesheet] = stylesheet
   end
+
+  opts.on('-p', '--url-prefix PATH', 'Prefix all urls with PATH') do |url|
+    options[:url] = url
+  end
 end.parse!
 
 WhoNeedsWP::generate(YAML.load_file('.who-needs-wp.yaml').merge(options))
