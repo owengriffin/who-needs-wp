@@ -1,5 +1,6 @@
-%h2 Pages
-%ul
-  - pages.each do |page|
-    %li
-      %a.title{:href => "#{options[:url]}/#{page[:filename][:generated]}", :title => page[:title]}= page[:title]
+- if pages.length > 0
+  %h2 Pages
+  %ul
+    - pages.each do |page|
+      %li
+        %a.title{:href => "#{options[:url]}/#{page[:filename][:generated]}", :title => page[:title]}= page[:title]

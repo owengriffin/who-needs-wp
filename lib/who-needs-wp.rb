@@ -48,7 +48,8 @@ module WhoNeedsWP
       file.puts @template['layout'].render(Object.new, {
                                             :content => contents, 
                                             :options => @options, 
-                                            :sidebar => @sidebar.join
+                                            :sidebar => @sidebar.join,
+                                             :layout_name => "index"
                                           })
     end
   end

@@ -45,7 +45,8 @@ module WhoNeedsWP
                                               :content => page[:html], 
                                               :options => @options, 
                                               :title => page[:title], 
-                                              :sidebar => @sidebar.join
+                                              :sidebar => @sidebar.join,
+                                               :layout_name => "page"
                                             })
       end
     end

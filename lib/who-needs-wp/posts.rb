@@ -28,7 +28,10 @@ module WhoNeedsWP
   end
 
   def self.generate_posts
-    @POSTS.each do |post|
+    @POSTS.each_index do |index|
+      post = @POSTS[index]
+      previous_post = @POSTS[index + 1] if index + 1 < @POSTS.length
+      next_post = @POSTS[index - 1] if index > 1
       File.open(post[:filename][:generated], "w") do |file|
         markdown = File.read(post[:filename][:original])
         post[:author] = @options[:author]
@@ -43,13 +46,16 @@ module WhoNeedsWP
         post[:html] = @template['post'].render(Object.new, {
                                                 :post => post, 
                                                 :title => post[:title],
-                                                :options => @options
+                                                :options => @options,
+                                                 :next_post => next_post,
+                                                 :previous_post => previous_post
                                               })
         file.puts @template['layout'].render(Object.new, {
                                               :content => post[:html], 
                                               :options => @options, 
                                               :title => post[:title], 
-                                              :sidebar => @sidebar.join
+                                              :sidebar => @sidebar.join,
+                                               :layout_name => "post"
                                             })
       end
     end

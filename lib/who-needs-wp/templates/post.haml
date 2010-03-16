@@ -9,3 +9,17 @@
     = post[:author]
   .content
     ~ post[:markdown]
+
+- if previous_post or next_post
+  .navigation
+    %h3 Navigation
+    %ul
+      - if previous_post
+        %li
+          Previous:
+          %a.next{:href => "#{options[:url]}/#{previous_post[:filename][:generated]}", :title => "#{previous_post[:title]}"}= "#{previous_post[:title]}"
+
+      - if next_post
+        %li
+          Next:
+          %a.next{:href => "#{options[:url]}/#{next_post[:filename][:generated]}", :title => "#{next_post[:title]}"}= "#{next_post[:title]}"
