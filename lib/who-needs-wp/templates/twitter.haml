@@ -1,6 +1,10 @@
-%h2 Twitter
+%h2= feed_title
 %ul
-  - tweets.each do |tweet|
+  - if tweets.length == 0
     %li
-      %span.date= Date.parse(tweet[:created_at]).strftime('%Y-%m-%d')
-      %span= tweet[:text]
+      %p No tweets found.
+  - else
+    - tweets.each do |tweet|
+      %li
+        %span.date= Date.parse(tweet[:created_at]).strftime('%Y-%m-%d')
+        %span= tweet[:text]
