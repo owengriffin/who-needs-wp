@@ -13,6 +13,7 @@ require 'who-needs-wp/twitter.rb'
 require 'who-needs-wp/delicious.rb'
 require 'who-needs-wp/templates.rb'
 require 'who-needs-wp/posts.rb'
+require 'who-needs-wp/pages.rb'
 
 module WhoNeedsWP
   # A list of HTML strings which will be the sidebar
@@ -28,10 +29,13 @@ module WhoNeedsWP
     @options = options
     self.load_templates
     self.load_posts
+    self.load_pages
+    self.recentposts
+    self.page_index
     self.twitter
     self.delicious
-    self.recentposts
     self.generate_posts
+    self.generate_pages
     self.index
     self.css
   end

@@ -1,0 +1,9 @@
+
+.page
+  %h2.title
+    %a{:href => "#{options[:url]}/#{page[:filename][:generated]}"}= page[:title]
+  .author
+    by
+    = page[:author]
+  .content
+    ~ page[:markdown]
