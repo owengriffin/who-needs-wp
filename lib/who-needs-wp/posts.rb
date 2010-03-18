@@ -29,35 +29,36 @@ module WhoNeedsWP
 
   def self.generate_posts
     @POSTS.each_index do |index|
+      # Calculate the previous and next posts
       post = @POSTS[index]
       previous_post = @POSTS[index + 1] if index + 1 < @POSTS.length
       next_post = @POSTS[index - 1] if index > 1
-      File.open(post[:filename][:generated], "w") do |file|
-        markdown = File.read(post[:filename][:original])
-        post[:author] = @options[:author]
-        match = markdown.match(/^[aA]uthor: (.*)$/o)
-        if match
-          post[:author] = match[1]
-          # Remove the author from the post text
-          markdown.gsub! /^[aA]uthor: .*$/, ''
-        end
-#        post[:markdown] = RDiscount.new(markdown, :smart, :generate_toc).to_html
-        post[:markdown] = MakersMark.generate(markdown)
-        post[:html] = @template['post'].render(Object.new, {
-                                                :post => post, 
-                                                :title => post[:title],
-                                                :options => @options,
-                                                 :next_post => next_post,
-                                                 :previous_post => previous_post
-                                              })
-        file.puts @template['layout'].render(Object.new, {
-                                              :content => post[:html], 
-                                              :options => @options, 
-                                              :title => post[:title], 
-                                              :sidebar => @sidebar.join,
-                                               :layout_name => "post"
-                                            })
+
+      # Read the contents of the file
+      markdown = File.read(post[:filename][:original])
+      
+      # Specify the default author
+      post[:author] = @options[:author]
+
+      # Check to see if the author of the document is specified with "Author:"
+      match = markdown.match(/^[aA]uthor: (.*)$/o)
+      if match
+        post[:author] = match[1]
+        # Remove the author from the post text
+        markdown.gsub! /^[aA]uthor: .*$/, ''
       end
+
+      # post[:markdown] = RDiscount.new(markdown, :smart, :generate_toc).to_html
+      post[:markdown] = MakersMark.generate(markdown)
+      post[:html] = @template['post'].render(Object.new, {
+                                               :post => post, 
+                                               :title => post[:title],
+                                               :options => @options,
+                                               :next_post => next_post,
+                                               :previous_post => previous_post
+                                             })
+      # Render the post as HTML
+      self.render_html(post[:filename][:generated], "post", post[:html], post[:title])
     end
   end
 end

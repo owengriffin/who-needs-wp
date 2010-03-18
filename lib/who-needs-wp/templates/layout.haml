@@ -11,21 +11,15 @@
       %link{:rel => "stylesheet", :type => "text/css", :href => "#{options[:url]}/#{options[:stylesheet]}"}/
     %meta{:"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
   %body
-    #doc4.yui-t2
-      #hd
-        %h1
-          %a{:href => "#{options[:url]}/index.html"}= options[:title]
-      #bd
-        #yui-main
-          .yui-b
-            .yui-gc
-              .yui-u.first
-                #content{:class => "#{layout_name}"}= content
-              .yui-u
-                =sidebar
-        .yui-b
-          
-      #ft
-        Generated using who-needs-wp
-          
-          
+    = content
+
+  - if options[:google_analytics] != nil and not options[:google_analytics].empty?
+    %script{:src => 'http://www.google-analytics.com/ga.js', :type => 'text/javascript'}/
+    :javascript
+      try {
+      var pageTracker = _gat._getTracker("#{options[:google_analytics]}_");
+      pageTracker._trackPageview();
+      } catch(err) {}
+
+
+

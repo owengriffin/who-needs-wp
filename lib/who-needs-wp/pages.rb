@@ -25,30 +25,27 @@ module WhoNeedsWP
 
   def self.generate_pages
     @pages.each do |page|
-      File.open(page[:filename][:generated], "w") do |file|
-        markdown = File.read(page[:filename][:original])
-        page[:author] = @options[:author]
-        match = markdown.match(/^[aA]uthor: (.*)$/o)
-        if match
-          page[:author] = match[1]
-          # Remove the author from the post text
-          markdown.gsub! /^[aA]uthor: .*$/, ''
-        end
-#        post[:markdown] = RDiscount.new(markdown, :smart, :generate_toc).to_html
-        page[:markdown] = MakersMark.generate(markdown)
-        page[:html] = @template['page'].render(Object.new, {
-                                                :page => page, 
-                                                :title => page[:title],
-                                                :options => @options
-                                              })
-        file.puts @template['layout'].render(Object.new, {
-                                              :content => page[:html], 
-                                              :options => @options, 
-                                              :title => page[:title], 
-                                              :sidebar => @sidebar.join,
-                                               :layout_name => "page"
-                                            })
+
+      markdown = File.read(page[:filename][:original])
+
+      page[:author] = @options[:author]
+
+      match = markdown.match(/^[aA]uthor: (.*)$/o)
+      if match
+        page[:author] = match[1]
+        # Remove the author from the post text
+        markdown.gsub! /^[aA]uthor: .*$/, ''
       end
+
+      # post[:markdown] = RDiscount.new(markdown, :smart, :generate_toc).to_html
+      page[:markdown] = MakersMark.generate(markdown)
+      page[:html] = @template['page'].render(Object.new, {
+                                               :page => page, 
+                                               :title => page[:title],
+                                               :options => @options
+                                             })
+      # Render the page as HTML
+      self.render_html(page[:filename][:generated], "page", page[:html], page[:title])
     end
   end
 end

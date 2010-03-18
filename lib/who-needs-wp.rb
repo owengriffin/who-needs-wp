@@ -43,17 +43,10 @@ module WhoNeedsWP
 
   # Generate the index page for the blog
   def self.index
-    File.open("index.html", "w") do |file|
-      contents = ""
-      @POSTS[0..3].each do |post|
-        contents << post[:html]
-      end
-      file.puts @template['layout'].render(Object.new, {
-                                            :content => contents, 
-                                            :options => @options, 
-                                            :sidebar => @sidebar.join,
-                                             :layout_name => "index"
-                                          })
+    contents = ""
+    @POSTS[0..3].each do |post|
+      contents << post[:html]
     end
+    self.render_html("index.html", "index", contents)
   end
 end

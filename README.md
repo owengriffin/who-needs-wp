@@ -92,6 +92,13 @@ Modifying `.who-needs-wp.yaml` and add:
     :delicious:
       :user: <your delicious username>
 
+## Google Analytics
+
+To enable Google Analytics you need to specify your web property ID in `.who-needs-wp.yaml`. For example:
+
+    :google_analytics: UA-XXXXXXXX
+
+
 ## Syntax Highlighting
 
 `who-needs-wp` will syntax highlight your code snippets using [Makers-Mark][MakersMark] and [Pygments][Pygments]

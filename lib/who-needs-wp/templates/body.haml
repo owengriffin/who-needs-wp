@@ -1,0 +1,17 @@
+#doc4.yui-t2
+  #hd
+    %h1
+      %a{:href => "#{options[:url]}/index.html"}= options[:title]
+  #bd
+    #yui-main
+      .yui-b
+        .yui-gc
+          .yui-u.first
+            #content{:class => "#{layout_name}"}= content
+          .yui-u
+            =sidebar
+    .yui-b
+
+  #ft
+    Generated using who-needs-wp
+

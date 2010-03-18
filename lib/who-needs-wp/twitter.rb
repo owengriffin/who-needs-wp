@@ -8,16 +8,16 @@ module WhoNeedsWP
   end
   
   def self.twitter
-    @logger.debug @options[:twitter]
-    if @options[:twitter][:user]
+    if @options[:twitter][:user] != nil and not @options[:twitter][:user].empty?
       @logger.debug "Reading Tweets for user #{@options[:twitter][:user]}"
+      tweets = Twitter::Search.new.from(@options[:twitter][:user]).per_page(5).fetch().results
       @sidebar << @template['twitter'].render(Object.new, { 
-                                                :tweets => Twitter::Search.new.from(@options[:twitter][:user]).per_page(5).fetch().results,  
+                                                :tweets => tweets,  
                                                 :feed_title => "@#{@options[:twitter][:user]}",
                                                 :options => @options
                                               })
     end
-    if @options[:twitter][:search]
+    if @options[:twitter][:search] != nil and not @options[:twitter][:search].empty?
       @logger.debug "Searching Twitter for #{@options[:twitter][:search]}"
       @sidebar << @template['twitter'].render(Object.new, { 
                                                 :tweets => Twitter::Search.new(@options[:twitter][:search]).per_page(5).fetch().results, 
