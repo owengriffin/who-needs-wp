@@ -38,6 +38,7 @@ module WhoNeedsWP
     self.generate_posts
     self.generate_pages
     self.index
+    self.all_posts
     self.css
   end
 
@@ -48,5 +49,13 @@ module WhoNeedsWP
       contents << post[:html]
     end
     self.render_html("index.html", "index", contents)
+  end
+
+  # Generate a page containing a list of all posts
+  def self.all_posts
+    self.render_html("posts/all.html", "post_index", @template['all_posts'].render(Object.new, { 
+                                                                              :posts => @POSTS, 
+                                                                              :options => @options
+                                                                            }), "All Posts")
   end
 end
