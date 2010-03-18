@@ -25,6 +25,7 @@ module WhoNeedsWP
   # Logger
   @logger = Logger.new(STDOUT)
 
+  # Generate the site with the specified options
   def self.generate(options)
     @options = options
     self.load_templates
@@ -39,6 +40,8 @@ module WhoNeedsWP
     self.index
     self.css
   end
+
+  # Generate the index page for the blog
   def self.index
     File.open("index.html", "w") do |file|
       contents = ""
