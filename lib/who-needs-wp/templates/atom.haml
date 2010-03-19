@@ -1,0 +1,8 @@
+!!! XML utf-8
+%feed(xmlns="http://www.w3.org/2005/Atom")
+  %title= options[:title]
+  %link(href= "#{options[:url]}")/
+  - posts.each do |post|
+    %entry
+      %title= post[:title]
+      %link(href="#{options[:url]}/#{post[:filename][:generated]}")/

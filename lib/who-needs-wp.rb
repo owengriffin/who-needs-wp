@@ -7,7 +7,7 @@ require 'open-uri'
 require 'sass'
 require 'makers-mark'
 require 'logger'
-
+require 'rss/maker'
 require 'who-needs-wp/css.rb'
 require 'who-needs-wp/twitter.rb'
 require 'who-needs-wp/delicious.rb'
@@ -33,13 +33,15 @@ module WhoNeedsWP
     self.load_pages
     self.recentposts
     self.page_index
-    self.twitter
-    self.delicious
+ #   self.twitter
+ #   self.delicious
     self.generate_posts
     self.generate_pages
     self.index
     self.all_posts
     self.css
+    self.rss("posts.rss")
+    self.atom("posts.atom")
   end
 
   # Generate the index page for the blog

@@ -1,0 +1,9 @@
+!!! XML iso-8859-1
+%rss(version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/")
+  %channel
+    %title= options[:title]
+    %link= options[:url]
+    - posts.each do |post|
+      %item
+        %title= post[:title]
+        %link= "#{options[:url]}/#{post[:filename][:generated]}"
