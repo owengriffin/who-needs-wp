@@ -7,41 +7,43 @@ require 'mysql'
 require 'ftools'
 require 'choice'
 
+PROGRAM_VERSION=0.1
+
 Choice.options do
+  header 'Converts a MySQL Wordpress database to a blog in who-needs-wp format.'
   header ''
   header 'Database options:'
   
   option :host do
     short '-h'
     long '--host=HOST'
-    desc 'The hostname or ip of the MySQL server to connect to (default 127.0.0.1)'
+    desc 'Hostname or IP of the MySQL server to connect to (default 127.0.0.1)'
     default '127.0.0.1'
   end
   
   option :database do
     short '-d'
     long '--database=DATABASE'
-    desc 'The name of the database to use (default wordpress)'
+    desc 'Name of the database to use (default wordpress)'
     default 'wordpress'
   end
 
   option :username do
     short '-u'
     long '--username=USER'
-    desc 'The name of the MySQL user to use (default wordpress)'
+    desc 'Name of the MySQL user to use (default wordpress)'
     default 'wordpress'
   end
 
   option :password do
     short '-p'
     long '--password=PASSWORD'
-    desc 'The password for the MySQL user'
-    default 'wordpress'
+    desc 'Password for the MySQL user'
   end
 
   option :prefix do
     long '--prefix=PREFIX'
-    desc 'The prefix for all Wordpress table names'
+    desc 'Prefix for all Wordpress table names'
     default ''
   end
 
@@ -50,7 +52,7 @@ Choice.options do
 
   option :url do
     long '--url=URL'
-    desc 'The URL for new who-needs-wp blog (used for redirects)'
+    desc 'URL for new who-needs-wp blog (used for redirects)'
     default '/'
   end
 
@@ -67,7 +69,7 @@ Choice.options do
     long '--version'
     desc 'Show version'
     action do
-      puts "ftpd.rb FTP server v#{PROGRAM_VERSION}"
+      puts "wordpress2wnwp Wordpress MySQL database converter v#{PROGRAM_VERSION}"
       exit
     end
   end
