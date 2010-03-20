@@ -2,9 +2,14 @@
 %rss{:version => "2.0"}
   %channel
     %title= options[:title]
+    %description= options[:description]
     %link= options[:url]
     - posts.each do |post|
       %item
         %title= post[:title]
         %link= "#{options[:url]}/#{post[:filename][:generated]}"
-        
+        %guid= "#{options[:url]}/#{post[:filename][:generated]}"
+        %pubDate= Time.parse(post[:created_at].to_s).rfc822
+        %description
+          :cdata
+            #{post[:summary]}

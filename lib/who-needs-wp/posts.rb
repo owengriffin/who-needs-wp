@@ -92,11 +92,7 @@ module WhoNeedsWP
                                                :previous_post => previous_post
                                              })
       # Set the summary of the post to be the first paragraph
-      match = post[:html].match(/(?:<p>)(.*?)(?:<\/p>)/)
-      if match
-        @logger.debug match.inspect
-        post[:summary] = $1
-      end
+      post[:summary] = $1 if post[:html] =~ (/(?:<p>)(.*?)(?:<\/p>)/)
       
       # Render the post as HTML
       self.render_html(post[:filename][:generated], "post", post[:html], post[:title])
