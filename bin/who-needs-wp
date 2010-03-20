@@ -2,24 +2,47 @@
 $: << File.expand_path(File.dirname(__FILE__) + "/../lib")
 
 require 'rubygems'
+require 'choice'
 require 'who-needs-wp.rb'
-require 'optparse'
 
-options = {}
-OptionParser.new do |opts|
-  opts.banner = "Usage: who-needs-wp [options]"
-  
-  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-    options[:verbose] = v
+options = YAML.load_file('.who-needs-wp.yaml')
+
+Choice.options do
+  header 'A static web site generator. Generates a blog based on Markdown-formatted documents.'
+  header ''
+  header 'Options are initially read from .who-needs-wp.yaml and over-written by any of the following.'
+  header ''
+
+  option :stylesheet do
+    short '-s'
+    long '--stylesheet=STYLESHEET'
+    desc "A CSS file which will be included in every page generated. (Default: \"#{options[:stylesheet]}\")"
+    default options[:stylesheet]
   end
 
-  opts.on('-s', '--stylesheet STYLESHEET', 'Include STYLESHEET in the output') do |stylesheet|
-    options[:stylesheet] = stylesheet
+  option :url do
+    short '-u'
+    long '--url-prefix=URL'
+    desc "Prefix any generated link with the specified URL. (Default: \"#{options[:url]}\")"
+    default options[:url]
   end
 
-  opts.on('-p', '--url-prefix PATH', 'Prefix all urls with PATH') do |url|
-    options[:url] = url
+  option :title do
+    short '-t'
+    long '--title=TITLE'
+    desc "Title of the blog (Default: \"#{options[:title]}\")"
+    default options[:title]
   end
-end.parse!
 
-WhoNeedsWP::generate(YAML.load_file('.who-needs-wp.yaml').merge(options))
+  option :author do
+    short '-a'
+    long '--author=AUTHOR'
+    desc "Author of the blog (Default: \"#{options[:author]}\")"
+    default options[:author]
+  end
+end
+
+Choice.choices.each do |key, value|
+  options[key.to_sym] = value
+end
+WhoNeedsWP::generate(options)

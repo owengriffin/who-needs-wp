@@ -16,6 +16,7 @@ begin
     gem.add_dependency('nokogiri', '>= 1.4.1')
     gem.add_dependency('open4', '>= 1.0.1')
     gem.add_dependency('makers-mark', '>= 0.1.1')
+    gem.add_dependency('choice', '>= 0.1.4')
     gem.files = ["lib/who-needs-wp.rb", "lib/who-needs-wp/*.rb", "lib/who-needs-wp/**/*"]
   end
   Jeweler::GemcutterTasks.new
