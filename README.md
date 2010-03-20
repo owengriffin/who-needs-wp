@@ -13,11 +13,11 @@ The main disadvantage is that user's aren't able to comment on my posts - but th
 
 ## Getting Started
 
-`who-needs-wp` is a small Ruby program which helps generate static web sites. To start using `who-needs-wp` you need to install Ruby. On Ubuntu enter the following into a command prompt:
+who-needs-wp is a small Ruby program which helps generate static web sites. To start using who-needs-wp you need to install Ruby. On Ubuntu enter the following into a command prompt:
 
     sudo apt-get install ruby ruby-dev rubygems
     
-You then need to install `who-needs-wp` by running the following:
+You then need to install who-needs-wp by running the following:
 
     sudo gem install who-needs-wp
     
@@ -33,7 +33,7 @@ Now create a folder which will host your web site
 
     mkdir /var/www/website/
     
-`who-needs-wp` stores posts in the `posts/` folder followed by a folder representing the date of the post. i.e. `posts/year/month/day`.
+who-needs-wp stores posts in the `posts/` folder followed by a folder representing the date of the post. i.e. `posts/year/month/day`.
 
 Create an example post by creating a folder and creating a Markdown file.
 
@@ -46,7 +46,7 @@ Along with [Markdown Syntax][MarkdownSyntax] you can also specify the author of 
 
     Author: Your Name
 
-Before it can generate the site `who-needs-wp` needs to be configured. Copy the following into `/var/www/website/.who-needs-wp.yaml`
+Before it can generate the site who-needs-wp needs to be configured. Copy the following into `/var/www/website/.who-needs-wp.yaml`
 
     --- 
     :url: /website/test
@@ -69,15 +69,15 @@ And view the blog at the following URL:
 
 ## Overriding Templates
 
-You will probably find that the templates used by `who-needs-wp` don't quite match your requirements. You can override any of the templates by creating a `templates` folder. You can copy the existing templates from the gem as a starting point. The templates are stored within the `/var/lib/gems/1.8/gems/who-needs-wp-0.1.0/lib/who-needs-wp/templates/`. 
+You will probably find that the templates used by who-needs-wp don't quite match your requirements. You can override any of the templates by creating a `templates` folder. You can copy the existing templates from the gem as a starting point. The templates are stored within the `/var/lib/gems/1.8/gems/who-needs-wp-0.1.0/lib/who-needs-wp/templates/`. 
 
 ## Applying alternative styles
 
-You can specify an additional stylesheet by using the `-s` or `--stylesheet` option to the `who-needs-wp` command.
+You can specify an additional stylesheet by using the `-s` or `--stylesheet` option to the who-needs-wp command.
 
 ## Twitter
 
-`who-needs-wp` can place a [Twitter][Twitter] stream in the side bar. This can either be a search or an individual user's feed.
+who-needs-wp can place a [Twitter][Twitter] stream in the side bar. This can either be a search or an individual user's feed.
 
 Modifying `.who-needs-wp.yaml` and add:
 
@@ -87,7 +87,7 @@ Modifying `.who-needs-wp.yaml` and add:
       
 ## Delicious
 
-`who-needs-wp` can also display a list of bookmarks from [Delicious][Delicious]. Modify `.who-needs-wp.yaml` and add:
+who-needs-wp can also display a list of bookmarks from [Delicious][Delicious]. Modify `.who-needs-wp.yaml` and add:
 
     :delicious:
       :user: <your delicious username>
@@ -101,11 +101,15 @@ To enable Google Analytics you need to specify your web property ID in `.who-nee
 
 ## Syntax Highlighting
 
-`who-needs-wp` will syntax highlight your code snippets using [Makers-Mark][MakersMark] and [Pygments][Pygments]
+who-needs-wp will syntax highlight your code snippets using [Makers-Mark][MakersMark] and [Pygments][Pygments]
 
 ## Migration from Wordpress
 
-A simple script is in development which will convert a MySQL database to seperate Markdown pages.
+Packaged with who-needs-wp is a simple script called wordpress2wnwp which aids migrating from Wordpress. wordpress2wnwp exports posts from a MySQL database and outputs them in the who-needs-wp filing structure. It also generates Apache2 `RewriteRule`s which rewrite any Wordpress URLs to who-needs-wp.
+
+To find more information on wordpress2wnwp enter the following command:
+
+    wordpress2wnwp -h
 
 ### Copyright
 
