@@ -27,6 +27,32 @@ module WhoNeedsWP
                                                })
   end
 
+  def self.options
+    return @options
+  end
+
+  def self.POSTS
+    return @POSTS
+  end
+
+  def self.rss(filename, limit=10)
+    file = File.open(filename, "w")
+    file.write @template['rss'].render(Object.new, { 
+                                                 :posts => @POSTS[0..limit], 
+                                                 :options => @options
+                                               })
+    file.close
+  end
+
+  def self.atom(filename, limit=10)
+    file = File.open(filename, "w")
+    file.write @template['atom'].render(Object.new, { 
+                                                 :posts => @POSTS[0..limit], 
+                                                 :options => @options
+                                               })
+    file.close
+  end
+
   def self.generate_posts
     @POSTS.each_index do |index|
       # Calculate the previous and next posts
