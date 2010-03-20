@@ -33,8 +33,8 @@ module WhoNeedsWP
     self.load_pages
     self.recentposts
     self.page_index
- #   self.twitter
- #   self.delicious
+    self.twitter
+    self.delicious
     self.generate_posts
     self.generate_pages
     self.index
