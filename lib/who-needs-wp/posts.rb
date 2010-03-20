@@ -6,15 +6,23 @@ module WhoNeedsWP
       @logger.debug "Loading post #{filename}"
       match = filename.match(/([0-9]{4})\/([0-9]{2})\/([0-9]{2})\/([^\.]*)/)
       date = DateTime.new(match[1].to_i, match[2].to_i, match[3].to_i)
-      @POSTS << {
+      generated_filename = File.dirname(filename) + "/" + File.basename(filename, ".markdown") + ".html" 
+      post = {
         :filename => { 
           :original => filename,
-          :generated => File.dirname(filename) + "/" + File.basename(filename, ".markdown") + ".html"
+          :generated => generated_filename,
         },
         :title => match[4].gsub(/_/, ' '),
         :created_at => date
       }
+      # Generate a unique post ID to be used in the Atom feed
+      post[:id] = "#{options[:url]}#{generated_filename}".gsub!(/http:\/\//, 'tag:')
+      match = post[:id].match(/([^\/]*)\/(.*)/)
+      post[:id] = "#{match[1]},#{date.strftime('%Y-%m-%d')}:#{match[2]}" if match
+      # Append the post to the global list of posts
+      @POSTS << post
     end
+    # Sort the posts, newest first
     @POSTS.sort! { |a, b| a[:created_at] <=> b[:created_at] }
     @POSTS.reverse!
   end
@@ -83,6 +91,13 @@ module WhoNeedsWP
                                                :next_post => next_post,
                                                :previous_post => previous_post
                                              })
+      # Set the summary of the post to be the first paragraph
+      match = post[:html].match(/(?:<p>)(.*?)(?:<\/p>)/)
+      if match
+        @logger.debug match.inspect
+        post[:summary] = $1
+      end
+      
       # Render the post as HTML
       self.render_html(post[:filename][:generated], "post", post[:html], post[:title])
     end
