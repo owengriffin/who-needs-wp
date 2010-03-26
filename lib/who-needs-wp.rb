@@ -47,8 +47,12 @@ module WhoNeedsWP
   # Generate the index page for the blog
   def self.index
     contents = ""
-    @POSTS[0..3].each do |post|
-      contents << post[:html]
+    if @POSTS.length > 0
+      @POSTS[0..3].each do |post|
+        contents << post[:html]
+      end
+    else
+      contents << @pages.first[:html]
     end
     self.render_html("index.html", "index", contents)
   end
