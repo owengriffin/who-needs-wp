@@ -89,8 +89,7 @@ module WhoNeedsWP
     Net::SFTP.start(host, username) do |sftp|
       Dir.glob("**/*") do |filename|
         basename = File.basename(filename)
-        if File.directory? filename or 
-            basename =~ /^\..*$/ or 
+        if basename =~ /^\..*$/ or 
             basename =~ /.*\.markdown$/ or 
             basename =~ /^.*~$/ or 
             basename =~ /^\#.*\#$/
@@ -101,13 +100,18 @@ module WhoNeedsWP
           
           # If the directory does not exist then create it
           begin
-            remote_directory = File.dirname(remote_filename)
+            if File.directory? filename
+              remote_directory = remote_filename
+            else
+              remote_directory = File.dirname(remote_filename)
+            end
             sftp.stat!(remote_directory)
           rescue Net::SFTP::StatusException
             @logger.debug "#{remote_directory} does not exist"
-            sftp.mkdir(remote_directory, :permissions => permissions[:directory])
+            sftp.mkdir!(remote_directory, :permissions => permissions[:directory])
           end
 
+          if not File.directory? filename
           # If the file does not exist then create it
           begin
             status = sftp.stat!(remote_filename)
@@ -124,6 +128,7 @@ module WhoNeedsWP
             sftp.upload!(filename, remote_filename)
           else
             @logger.debug "Skipping #{filename}"
+          end
           end
         end
       end
