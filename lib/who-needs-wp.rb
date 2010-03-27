@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 require 'rubygems'
 require 'rdiscount'
 require 'haml'
@@ -8,6 +9,8 @@ require 'sass'
 require 'makers-mark'
 require 'logger'
 require 'rss/maker'
+require 'net/ssh'
+require 'net/sftp'
 require 'who-needs-wp/css.rb'
 require 'who-needs-wp/twitter.rb'
 require 'who-needs-wp/delicious.rb'
@@ -42,6 +45,9 @@ module WhoNeedsWP
     self.css
     self.rss("posts.rss")
     self.atom("posts.atom")
+    if @options[:upload] 
+      self.upload
+    end
   end
 
   # Generate the index page for the blog
@@ -63,5 +69,62 @@ module WhoNeedsWP
                                                                               :posts => @POSTS, 
                                                                               :options => @options
                                                                             }), "All Posts")
+  end
+
+  def self.upload
+    match = @options[:remote_addr].match(/(.*)@(.*):(.*)/)
+    username = match[1]
+    host = match[2]
+    remote_path = match[3]
+    # Replace the tilda with the full path for home
+    remote_path = "/home/#{username}/" + remote_path[1..remote_path.length] if remote_path =~ /^~.*$/
+    local_path = Dir.pwd
+    permissions = {
+      :directory => 0755,
+      :file => 0644
+    }
+    Net::SFTP.start(host, username) do |sftp|
+      Dir.glob("**/*") do |filename|
+        basename = File.basename(filename)
+        if File.directory? filename or 
+            basename =~ /^\..*$/ or 
+            basename =~ /.*\.markdown$/ or 
+            basename =~ /^.*~$/ or 
+            basename =~ /^\#.*\#$/
+          @logger.debug "Skipping #{filename}"
+        else
+          remote_filename = remote_path + filename.sub(local_path, '')
+          @logger.debug "Remote filename = #{remote_filename}"
+          
+          # If the directory does not exist then create it
+          begin
+            remote_directory = File.dirname(remote_filename)
+            sftp.stat!(remote_directory)
+          rescue Net::SFTP::StatusException
+            @logger.debug "#{remote_directory} does not exist"
+            sftp.mkdir(remote_directory, :permissions => permissions[:directory])
+          end
+
+          # If the file does not exist then create it
+          begin
+            status = sftp.stat!(remote_filename)
+          rescue Net::SFTP::StatusException
+            @logger.debug "#{remote_filename} does not exist"
+            sftp.upload!(filename, remote_filename)
+            sftp.setstat(remote_filename, :permissions => permissions[:file])
+            next
+          end
+
+          # If the local file has changed then upload it
+          if File.stat(filename).mtime > Time.at(status.mtime)
+            @logger.debug "Copying #{filename} to #{remote_filename}"
+            sftp.upload!(filename, remote_filename)
+          else
+            @logger.debug "Skipping #{filename}"
+          end
+        end
+      end
+      @logger.debug "Disconnecting from remote server"
+    end
   end
 end

@@ -47,6 +47,17 @@ Choice.options do
     default options[:author]
   end
 
+  option :upload do
+    short '-u'
+    long '--upload'
+    desc 'Upload the output to an FTP address.'
+  end
+
+  option :remote_addr do
+    long '--remote-addr=username'
+    desc "Location to upload the output. To enable specify the --upload option. (Default: \"#{options[:ftp]}\")"
+  end
+
   option :help do
     long '--help'
     desc 'Show this message'
