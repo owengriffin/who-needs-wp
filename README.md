@@ -101,7 +101,10 @@ To enable Google Analytics you need to specify your web property ID in `.who-nee
 
 ## Syntax Highlighting
 
-who-needs-wp will syntax highlight your code snippets using [Makers-Mark][MakersMark] and [Pygments][Pygments]
+who-needs-wp will syntax highlight your code snippets using [Makers-Mark][MakersMark] and [Pygments][Pygments]. You will need to ensure that Pygments is installed.
+
+    sudo apt-get install python-setuptools
+    sudo easy_install pygments
 
 ## Migration from Wordpress
 
