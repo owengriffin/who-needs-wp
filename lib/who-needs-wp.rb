@@ -31,6 +31,9 @@ module WhoNeedsWP
   # Generate the site with the specified options
   def self.generate(options)
     @options = options
+    if @options[:url] == '/'
+      @options[:url] = ''
+    end
     self.load_templates
     self.load_posts
     self.load_pages

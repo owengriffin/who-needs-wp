@@ -98,7 +98,7 @@ class Wordpress2WNWP
 
   # Returns a list of parent post identifiers
   def self.parent_posts
-    results = @database.query("SELECT DISTINCT post_parent FROM #{@table_name}")
+    results = @database.query("SELECT id FROM #{@table_name} WHERE post_type ='post'")
     posts = []
     while row = results.fetch_row do
       posts << row[0]
@@ -110,14 +110,14 @@ class Wordpress2WNWP
   def self.latest_posts(parents)
     posts = []
     parents.each do |post_id|
-      results = @database.query("SELECT post_title, post_date, post_content FROM #{@table_name} WHERE post_parent = '#{post_id}' ORDER BY ID DESC LIMIT 1")
+      results = @database.query("SELECT post_title, post_date, post_content FROM #{@table_name} WHERE post_parent = '#{post_id}' AND post_type='revision' ORDER BY ID DESC LIMIT 1")
       row = results.fetch_row
       posts << {
         :id => post_id,
         :title => row[0],
         :date => Date.parse(row[1]),
         :content => row[2]
-      }
+      } if row != nil
     end
     return posts
   end
@@ -137,16 +137,31 @@ class Wordpress2WNWP
 
   # Generate a list of Apache2 rewrite rules
   def self.generate_rewrites(posts)
-    puts "Re-write rules for Apache2:"
-    posts.each do |post|
-      results = @database.query("SELECT guid FROM #{@table_name} WHERE post_parent='#{post[:id]}'")
-      while row = results.fetch_row do
-        if row[0] =~ /p=([0-9]+)/
-          guid = $1
-          puts "RewriteCond %{QUERY_STRING} p=#{guid}"
-          puts "RewriteRule ^#{@options[:url]}$ #{@options[:url]}posts/#{post[:filename]} [L]"
+    File.open('.htaccess', 'w') do |file|
+      # Set up redirects
+      file.puts "RewriteEngine On"
+      base = @options[:url]
+      base = '/' if base.empty?
+      file.puts "RewriteBase #{base}"
+
+      # Re-write for RSS 2.0 feed
+      file.puts "RewriteCond %{QUERY_STRING} ^feed=rss2$"
+      file.puts "RewriteRule ^.*$ #{@options[:url]}/posts.rss?feed= [L]"
+      # Rewrites for all posts
+      posts.each do |post|
+        file.puts "RewriteCond %{QUERY_STRING} ^p=#{post[:id]}$"
+        file.puts "RewriteRule ^.*$ #{@options[:url]}/posts/#{post[:filename]}?p= [L]"
+        results = @database.query("SELECT guid FROM #{@table_name} WHERE post_parent='#{post[:id]}'")
+        while row = results.fetch_row do
+          if row[0] =~ /p=([0-9]+)/
+            guid = $1
+            file.puts "RewriteCond %{QUERY_STRING} ^p=#{guid}$"
+            file.puts "RewriteRule ^.*$ #{@options[:url]}/posts/#{post[:filename]}?p= [R,L]"
+          end
         end
+
       end
+
     end
   end
 end
