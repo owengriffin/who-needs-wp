@@ -5,7 +5,13 @@ require 'rubygems'
 require 'choice'
 require 'who-needs-wp.rb'
 
-options = YAML.load_file('.who-needs-wp.yaml')
+PROGRAM_VERSION = "0.5.0"
+
+if File.exists? ".who-needs-wp.yaml"
+  options = YAML.load_file('.who-needs-wp.yaml') 
+else
+  options = {}
+end
 
 Choice.options do
   header 'A static web site generator. Generates a blog based on Markdown-formatted documents.'
@@ -40,6 +46,22 @@ Choice.options do
     desc "Author of the blog (Default: \"#{options[:author]}\")"
     default options[:author]
   end
+
+  option :help do
+    long '--help'
+    desc 'Show this message'
+  end
+
+  option :version do
+    short '-v'
+    long '--version'
+    desc 'Show version'
+    action do
+      puts "v#{PROGRAM_VERSION}"
+      exit
+    end
+  end
+
 end
 
 Choice.choices.each do |key, value|

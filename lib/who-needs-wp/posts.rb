@@ -16,7 +16,7 @@ module WhoNeedsWP
         :created_at => date
       }
       # Generate a unique post ID to be used in the Atom feed
-      post[:id] = "#{options[:url]}#{generated_filename}".gsub!(/http:\/\//, 'tag:')
+      post[:id] = "#{options[:url]}#{generated_filename}".gsub(/http:\/\//, 'tag:')
       match = post[:id].match(/([^\/]*)\/(.*)/)
       post[:id] = "#{match[1]},#{date.strftime('%Y-%m-%d')}:#{match[2]}" if match
       # Append the post to the global list of posts
