@@ -1,21 +1,23 @@
-
-
 module WhoNeedsWP
+  # Render the specified template with the given options
+  def self.render_template(name, options)
+    @template[name].render(Object.new, options.merge(@options))
+  end
 
   # Render the specified HTML contents within the layout template
   def self.render_html(filename, type, contents, title = "")
     File.open(filename, "w") do |file|
       body = @template['body'].render(Object.new, {
-                                              :content => contents, 
-                                              :options => @options, 
-                                              :sidebar => @sidebar.join,
-                                               :layout_name => type
-                                            })
+        :content => contents,
+        :options => @options,
+        :sidebar => Sidebar.render_all,
+        :layout_name => type
+      })
       file.puts @template['layout'].render(Object.new, {
-                                             :content => body,
-                                             :options => @options,
-                                             :title => title 
-                                           })
+        :content => body,
+        :options => @options,
+        :title => title
+      })
     end
   end
 

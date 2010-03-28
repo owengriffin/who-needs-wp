@@ -3,7 +3,7 @@ require 'rubygems'
 require 'rdiscount'
 require 'haml'
 require 'twitter'
-require 'nokogiri'
+
 require 'open-uri'
 require 'sass'
 require 'makers-mark'
@@ -12,6 +12,7 @@ require 'rss/maker'
 require 'net/ssh'
 require 'net/sftp'
 require 'who-needs-wp/css.rb'
+require 'who-needs-wp/Sidebar.rb'
 require 'who-needs-wp/twitter.rb'
 require 'who-needs-wp/delicious.rb'
 require 'who-needs-wp/templates.rb'
@@ -39,8 +40,10 @@ module WhoNeedsWP
     self.load_pages
     self.recentposts
     self.page_index
-    self.twitter
-    self.delicious
+    #self.twitter
+    if @options[:delicious]
+      delicious = Delicious.new(@options[:delicious][:user])
+    end 
     self.generate_posts
     self.generate_pages
     self.index
