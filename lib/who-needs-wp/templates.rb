@@ -1,7 +1,8 @@
 module WhoNeedsWP
   # Render the specified template with the given options
-  def self.render_template(name, options)
-    @template[name].render(Object.new, options.merge(@options))
+  def self.render_template(name, data)
+    data[:options] = @options
+    @template[name].render(Object.new, data)
   end
 
   # Render the specified HTML contents within the layout template
