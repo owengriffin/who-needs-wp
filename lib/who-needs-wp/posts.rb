@@ -42,6 +42,10 @@ module WhoNeedsWP
   def self.POSTS
     return @POSTS
   end
+  
+  def self.get_posts
+    return @POSTS
+  end
 
   def self.rss(filename, limit=10)
     file = File.open(filename, "w")

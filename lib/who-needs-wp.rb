@@ -2,7 +2,7 @@
 require 'rubygems'
 require 'rdiscount'
 require 'haml'
-require 'twitter'
+
 
 require 'open-uri'
 require 'sass'
@@ -15,6 +15,7 @@ require 'who-needs-wp/css.rb'
 require 'who-needs-wp/Sidebar.rb'
 require 'who-needs-wp/twitter.rb'
 require 'who-needs-wp/delicious.rb'
+require 'who-needs-wp/recentposts.rb'
 require 'who-needs-wp/templates.rb'
 require 'who-needs-wp/posts.rb'
 require 'who-needs-wp/pages.rb'
@@ -40,6 +41,9 @@ module WhoNeedsWP
     self.load_pages
     self.recentposts
     self.page_index
+    if @POSTS.length > 0
+      RecentPosts.new
+    end 
     #self.twitter
     if @options[:twitter]
       if @options[:twitter][:username]
