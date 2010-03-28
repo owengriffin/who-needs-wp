@@ -3,4 +3,4 @@
   %ul
     - pages.each do |page|
       %li
-        %a.title{:href => "#{options[:url]}/#{page[:filename][:generated]}", :title => page[:title]}= page[:title]
+        %a.title{:href => "#{options[:url]}/#{page.filename[:generated]}", :title => page.title}= page.title

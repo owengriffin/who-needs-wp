@@ -2,8 +2,6 @@
 require 'rubygems'
 require 'rdiscount'
 require 'haml'
-
-
 require 'open-uri'
 require 'sass'
 require 'makers-mark'
@@ -12,25 +10,23 @@ require 'rss/maker'
 require 'net/ssh'
 require 'net/sftp'
 require 'who-needs-wp/css.rb'
+require 'who-needs-wp/Content.rb'
+require 'who-needs-wp/content/Page.rb'
+require 'who-needs-wp/content/Post.rb'
 require 'who-needs-wp/Sidebar.rb'
 require 'who-needs-wp/sidebar/twitter.rb'
 require 'who-needs-wp/sidebar/delicious.rb'
 require 'who-needs-wp/sidebar/recentposts.rb'
 require 'who-needs-wp/sidebar/pageindex.rb'
 require 'who-needs-wp/templates.rb'
-require 'who-needs-wp/posts.rb'
-require 'who-needs-wp/pages.rb'
 
 module WhoNeedsWP
-  # A list of HTML strings which will be the sidebar
-  @sidebar = []
 
   # Map of templates which are used to render content
   @template = []
 
   # Logger
   @logger = Logger.new(STDOUT)
-
   # Generate the site with the specified options
   def self.generate(options)
     @options = options
@@ -38,56 +34,55 @@ module WhoNeedsWP
       @options[:url] = ''
     end
     self.load_templates
-    self.load_posts
-    self.load_pages
-    if @posts.length > 0
-      RecentPosts.new
-    end 
-    if @pages.length > 0
-      PageIndex.new
-    end
+    #self.load_posts
+
     if @options[:twitter]
       if @options[:twitter][:username]
         TwitterFeed.new(@options[:twitter][:username])
-      end 
+      end
       if @options[:twitter][:search]
         TwitterSearch.new(@options[:twitter][:search])
       end
     end
     if @options[:delicious]
       delicious = Delicious.new(@options[:delicious][:user])
-    end 
-    self.generate_posts
-    self.generate_pages
+    end
+    Page.load
+    Post.load
+    if Post.all.length > 0
+      RecentPosts.new
+    end
+    if Page.all.length > 0
+      PageIndex.new
+    end
+    Page.render_all
+    Post.render_all
+    Post.atom
+    Post.rss
+    Post.index
     self.index
-    self.all_posts
     self.css
-    self.rss("posts.rss")
-    self.atom("posts.atom")
-    if @options[:upload] 
+
+    if @options[:upload]
       self.upload
     end
+  end
+
+  def self.options
+    @options
   end
 
   # Generate the index page for the blog
   def self.index
     contents = ""
-    if @posts.length > 0
-      @posts[0..3].each do |post|
-        contents << post[:html]
+    if Post.all.length > 0
+      Post.all[0..3].each do |post|
+        contents << post.html
       end
     else
-      contents << @pages.first[:html]
+      contents << Page.all.first.html
     end
     self.render_html("index.html", "index", contents)
-  end
-
-  # Generate a page containing a list of all posts
-  def self.all_posts
-    self.render_html("posts/all.html", "post_index", @template['all_posts'].render(Object.new, { 
-                                                                              :posts => @posts, 
-                                                                              :options => @options
-                                                                            }), "All Posts")
   end
 
   def self.upload
@@ -105,15 +100,15 @@ module WhoNeedsWP
     Net::SFTP.start(host, username) do |sftp|
       Dir.glob("**/*") do |filename|
         basename = File.basename(filename)
-        if basename =~ /^\..*$/ or 
-            basename =~ /.*\.markdown$/ or 
-            basename =~ /^.*~$/ or 
-            basename =~ /^\#.*\#$/
+        if basename =~ /^\..*$/ or
+        basename =~ /.*\.markdown$/ or
+        basename =~ /^.*~$/ or
+        basename =~ /^\#.*\#$/
           @logger.debug "Skipping #{filename}"
         else
           remote_filename = remote_path + filename.sub(local_path, '')
           @logger.debug "Remote filename = #{remote_filename}"
-          
+
           # If the directory does not exist then create it
           begin
             if File.directory? filename
@@ -128,23 +123,23 @@ module WhoNeedsWP
           end
 
           if not File.directory? filename
-          # If the file does not exist then create it
-          begin
-            status = sftp.stat!(remote_filename)
-          rescue Net::SFTP::StatusException
-            @logger.debug "#{remote_filename} does not exist"
-            sftp.upload!(filename, remote_filename)
-            sftp.setstat(remote_filename, :permissions => permissions[:file])
-            next
-          end
+            # If the file does not exist then create it
+            begin
+              status = sftp.stat!(remote_filename)
+            rescue Net::SFTP::StatusException
+              @logger.debug "#{remote_filename} does not exist"
+              sftp.upload!(filename, remote_filename)
+              sftp.setstat(remote_filename, :permissions => permissions[:file])
+              next
+            end
 
-          # If the local file has changed then upload it
-          if File.stat(filename).mtime > Time.at(status.mtime)
-            @logger.debug "Copying #{filename} to #{remote_filename}"
-            sftp.upload!(filename, remote_filename)
-          else
-            @logger.debug "Skipping #{filename}"
-          end
+            # If the local file has changed then upload it
+            if File.stat(filename).mtime > Time.at(status.mtime)
+              @logger.debug "Copying #{filename} to #{remote_filename}"
+              sftp.upload!(filename, remote_filename)
+            else
+              @logger.debug "Skipping #{filename}"
+            end
           end
         end
       end

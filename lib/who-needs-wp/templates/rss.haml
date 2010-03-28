@@ -6,10 +6,10 @@
     %link= options[:url]
     - posts.each do |post|
       %item
-        %title= post[:title]
-        %link= "#{options[:url]}/#{post[:filename][:generated]}"
-        %guid= "#{options[:url]}/#{post[:filename][:generated]}"
-        %pubDate= Time.parse(post[:created_at].to_s).rfc822
+        %title= post.title
+        %link= "#{options[:url]}/#{post.filename[:generated]}"
+        %guid= "#{options[:url]}/#{post.filename[:generated]}"
+        %pubDate= Time.parse(post.created_at.to_s).rfc822
         %description
           :cdata
-            #{post[:summary]}
+            #{post.summary}

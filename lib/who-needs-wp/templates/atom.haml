@@ -1,19 +1,19 @@
 !!! XML utf-8
 %feed{:xmlns => "http://www.w3.org/2005/Atom"}
   %title= options[:title]
-  %id= "#{options[:url]}posts.atom"
+  %id= "#{options[:url]}/posts.atom"
   %updated= "#{Time.now.xmlschema}"
   %author
     %name= options[:author]
   %link{:href => "#{options[:url]}"}/
   - posts.each do |post|
     %entry
-      %title= post[:title]
-      %id= post[:id]
-      %updated= Time.parse(post[:created_at].to_s).xmlschema
-      %link{:href => "#{options[:url]}/#{post[:filename][:generated]}"}/
-      %content{:type => "text/html", :src => "#{options[:url]}/#{post[:filename][:generated]}"}/
+      %title= post.title
+      %id= post.id
+      %updated= Time.parse(post.created_at.to_s).xmlschema
+      %link{:href => "#{options[:url]}/#{post.filename[:generated]}"}/
+      %content{:type => "text/html", :src => "#{options[:url]}/#{post.filename[:generated]}"}/
       %summary{:type => "html"}
         :cdata
-          #{post[:summary]}
+          #{post.summary}
         

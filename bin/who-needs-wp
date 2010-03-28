@@ -48,7 +48,7 @@ Choice.options do
   end
 
   option :upload do
-    short '-u'
+    short '-p'
     long '--upload'
     desc 'Upload the output to an FTP address.'
   end

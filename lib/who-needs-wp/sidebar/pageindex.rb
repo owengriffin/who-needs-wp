@@ -3,7 +3,7 @@ module WhoNeedsWP
   class PageIndex < Sidebar
     # See Sidebar.render
     def render
-      WhoNeedsWP::render_template("pageindex", { :pages => WhoNeedsWP::get_pages })
+      WhoNeedsWP::render_template("pageindex", { :pages => WhoNeedsWP::Page.all })
     end
   end
 end

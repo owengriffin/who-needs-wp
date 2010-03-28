@@ -2,5 +2,6 @@
 %ul
   - posts.each do |post|
     %li
-      %span.date= post[:created_at].strftime('%Y-%m-%d')
-      %a.title{:href => "#{options[:url]}/#{post[:filename][:generated]}", :title => post[:title]}= post[:title]
+      %span.date= post.created_at.strftime('%Y-%m-%d')
+      %a.title{:href => "#{post.url}", :title => post.title}= post.title
+      %p= post.summary
