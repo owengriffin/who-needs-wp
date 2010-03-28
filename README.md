@@ -82,7 +82,7 @@ who-needs-wp can place a [Twitter][Twitter] stream in the side bar. This can eit
 Modifying `.who-needs-wp.yaml` and add:
 
     :twitter:
-      :user: <your twitter user>
+      :username: <your twitter user>
       :search: <your twitter search>
       
 ## Delicious
