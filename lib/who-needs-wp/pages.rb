@@ -14,6 +14,10 @@ module WhoNeedsWP
       }
     end
   end
+  
+  def self.get_pages
+    @pages
+  end
 
 
   def self.page_index

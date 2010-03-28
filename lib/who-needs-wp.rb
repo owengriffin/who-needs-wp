@@ -13,9 +13,10 @@ require 'net/ssh'
 require 'net/sftp'
 require 'who-needs-wp/css.rb'
 require 'who-needs-wp/Sidebar.rb'
-require 'who-needs-wp/twitter.rb'
-require 'who-needs-wp/delicious.rb'
-require 'who-needs-wp/recentposts.rb'
+require 'who-needs-wp/sidebar/twitter.rb'
+require 'who-needs-wp/sidebar/delicious.rb'
+require 'who-needs-wp/sidebar/recentposts.rb'
+require 'who-needs-wp/sidebar/pageindex.rb'
 require 'who-needs-wp/templates.rb'
 require 'who-needs-wp/posts.rb'
 require 'who-needs-wp/pages.rb'
@@ -39,12 +40,12 @@ module WhoNeedsWP
     self.load_templates
     self.load_posts
     self.load_pages
-    self.recentposts
-    self.page_index
     if @POSTS.length > 0
       RecentPosts.new
     end 
-    #self.twitter
+    if @pages.length > 0
+      PageIndex.new
+    end
     if @options[:twitter]
       if @options[:twitter][:username]
         TwitterFeed.new(@options[:twitter][:username])
