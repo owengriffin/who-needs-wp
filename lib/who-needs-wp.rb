@@ -40,7 +40,7 @@ module WhoNeedsWP
     self.load_templates
     self.load_posts
     self.load_pages
-    if @POSTS.length > 0
+    if @posts.length > 0
       RecentPosts.new
     end 
     if @pages.length > 0
@@ -72,8 +72,8 @@ module WhoNeedsWP
   # Generate the index page for the blog
   def self.index
     contents = ""
-    if @POSTS.length > 0
-      @POSTS[0..3].each do |post|
+    if @posts.length > 0
+      @posts[0..3].each do |post|
         contents << post[:html]
       end
     else
@@ -85,7 +85,7 @@ module WhoNeedsWP
   # Generate a page containing a list of all posts
   def self.all_posts
     self.render_html("posts/all.html", "post_index", @template['all_posts'].render(Object.new, { 
-                                                                              :posts => @POSTS, 
+                                                                              :posts => @posts, 
                                                                               :options => @options
                                                                             }), "All Posts")
   end

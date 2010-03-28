@@ -19,14 +19,6 @@ module WhoNeedsWP
     @pages
   end
 
-
-  def self.page_index
-    @sidebar << @template['pageindex'].render(Object.new, { 
-                                                 :pages => @pages, 
-                                                 :options => @options
-                                               })
-  end
-
   def self.generate_pages
     @pages.each do |page|
 
