@@ -41,6 +41,14 @@ module WhoNeedsWP
     self.recentposts
     self.page_index
     #self.twitter
+    if @options[:twitter]
+      if @options[:twitter][:username]
+        TwitterFeed.new(@options[:twitter][:username])
+      end 
+      if @options[:twitter][:search]
+        TwitterSearch.new(@options[:twitter][:search])
+      end
+    end
     if @options[:delicious]
       delicious = Delicious.new(@options[:delicious][:user])
     end 
