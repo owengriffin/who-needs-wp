@@ -6,6 +6,7 @@ module WhoNeedsWP
     def initialize(filename, created_at)
       super(filename)
       @created_at = created_at
+      generate_id
     end
 
     # A list of all the pages on the site

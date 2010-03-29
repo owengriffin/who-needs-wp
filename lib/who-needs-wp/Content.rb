@@ -19,8 +19,6 @@ module WhoNeedsWP
     attr_accessor :summary
     # A Hash which contains the original and generated filename
     attr_accessor :filename
-    
-    
     def initialize(filename)
       @filename = {
         :original => filename,
@@ -30,7 +28,7 @@ module WhoNeedsWP
       @url = WhoNeedsWP::options[:url] + '/' + @filename[:generated]
       # Set the default author of the content to be the site author
       @author = WhoNeedsWP::options[:author]
-
+      
       read_file
     end
 
@@ -67,13 +65,12 @@ module WhoNeedsWP
 
     # Generate a unique ID for this content
     def generate_id
-      if self.created_at == nil
-        raise "Content must have a timestamp before a unique ID can be generated"
+      if @created_at != nil
+        # Replace the HTTP from the URL with tag:
+        @id = (WhoNeedsWP::options[:url] + '/' + @filename[:generated]).gsub(/http:\/\//, 'tag:')
+        match = @id.match(/([^\/]*)\/(.*)/)
+        @id = "#{match[1]},#{self.created_at.strftime('%Y-%m-%d')}:#{match[2]}" if match
       end
-      # Replace the HTTP from the URL with tag:
-      @id = (WhoNeedsWP::options[:url] + @filename[:generated]).gsub(/http:\/\//, 'tag:')
-      match = @id.match(/([^\/]*)\/(.*)/)
-      @id = "#{match[1]},#{self.created_at.strftime('%Y-%m-%d')}:#{match[2]}" if match
     end
 
     # Read the author from the Markdown content. If none exists
