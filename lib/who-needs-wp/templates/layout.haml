@@ -20,7 +20,7 @@
     %script{:src => 'http://www.google-analytics.com/ga.js', :type => 'text/javascript'}/
     :javascript
       try {
-      var pageTracker = _gat._getTracker("#{options[:google_analytics]}_");
+      var pageTracker = _gat._getTracker("#{options[:google_analytics]}");
       pageTracker._trackPageview();
       } catch(err) {}
 
