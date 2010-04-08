@@ -7,6 +7,7 @@ module WhoNeedsWP
       Dir.glob('pages/*.markdown').each do |filename|
         @@pages << Page.new(filename)
       end
+      @@pages.sort! { |a, b| a.title <=> b.title }
     end
 
     # See Content.render_content
