@@ -50,9 +50,11 @@ module WhoNeedsWP
     end
 
     def self.index(filename = "posts/index.html")
-      WhoNeedsWP::render_html(filename, "post_index", WhoNeedsWP::render_template("all_posts", {
-        :posts => @@posts
-      }), "All Posts")
+      if File.exists?(File.dirname(filename))
+        WhoNeedsWP::render_html(filename, "post_index", WhoNeedsWP::render_template("all_posts", {
+          :posts => @@posts
+        }), "All Posts")
+      end
     end
 
     # Generate an RSS feed of all the posts
