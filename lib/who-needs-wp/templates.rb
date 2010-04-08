@@ -6,7 +6,7 @@ module WhoNeedsWP
   end
 
   # Render the specified HTML contents within the layout template
-  def self.render_html(filename, type, contents, title = "")
+  def self.render_html(filename, type, contents, title = "", tags = [])
     File.open(filename, "w") do |file|
       body = @template['body'].render(Object.new, {
         :content => contents,
@@ -17,7 +17,8 @@ module WhoNeedsWP
       file.puts @template['layout'].render(Object.new, {
         :content => body,
         :options => @options,
-        :title => title
+        :title => title,
+        :tags => tags
       })
     end
   end

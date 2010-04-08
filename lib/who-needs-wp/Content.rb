@@ -19,6 +19,9 @@ module WhoNeedsWP
     attr_accessor :summary
     # A Hash which contains the original and generated filename
     attr_accessor :filename
+    # An array of tags which are associated with this content
+    attr_accessor :tags
+
     def initialize(filename)
       @filename = {
         :original => filename,
@@ -39,7 +42,7 @@ module WhoNeedsWP
       # Append the full site URL to any links referring to the root folder
       @html.gsub!(/(href|src)=\"\//, '\1="' + WhoNeedsWP::options[:url] + '/')
       # Render the content HTML within a page
-      WhoNeedsWP::render_html(@filename[:generated], "page", @html, @title)
+      WhoNeedsWP::render_html(@filename[:generated], "page", @html, @title, @tags)
     end
 
     private
@@ -49,6 +52,8 @@ module WhoNeedsWP
       content = File.read(@filename[:original])
       # Remove the author, if there is one from the Markdown
       content = extract_author(content)
+      @tags = YahooTermExtractor.generate_keywords(content)
+
       @markdown = MakersMark.generate(content)
     end
 
