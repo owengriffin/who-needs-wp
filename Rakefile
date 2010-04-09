@@ -13,12 +13,11 @@ begin
     gem.add_dependency('rdiscount', '>= 1.5.8')
     gem.add_dependency('haml', '>= 2.2.20')
     gem.add_dependency('twitter', '>= 0.8.4')
-    gem.add_dependency('nokogiri', '>= 1.4.1')
-    gem.add_dependency('open4', '>= 1.0.1')
-    gem.add_dependency('makers-mark', '>= 0.1.1')
     gem.add_dependency('choice', '>= 0.1.4')
     gem.add_dependency('net-ssh', '>= 2.0.21')
     gem.add_dependency('net-sftp', '>= 2.0.4')
+    gem.add_dependency('kramdown', '>= 0.6.0')
+    gem.add_dependency('coderay', '>= 0.9.2')
     gem.files = ["lib/who-needs-wp.rb", "lib/who-needs-wp/*.rb", "lib/who-needs-wp/**/*"]
   end
   Jeweler::GemcutterTasks.new
