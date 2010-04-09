@@ -82,15 +82,17 @@ module WhoNeedsWP
 
   # Generate the index page for the blog
   def self.index
+    keywords = []
     contents = ""
     if Post.all.length > 0
       Post.all[0..3].each do |post|
         contents << post.html
+        keywords = keywords + post.tags
       end
     else
       contents << Page.all.first.html
     end
-    self.render_html("index.html", "index", contents)
+    self.render_html("index.html", "index", contents, "", keywords)
   end
 
   def self.upload
