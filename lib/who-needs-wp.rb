@@ -9,7 +9,6 @@ require 'logger'
 require 'rss/maker'
 require 'net/ssh'
 require 'net/sftp'
-#require 'CGI'
 require 'rexml/document'
 require 'net/http'
 

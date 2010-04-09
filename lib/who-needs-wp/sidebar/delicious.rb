@@ -27,12 +27,12 @@ module WhoNeedsWP
     def get_bookmarks
       @logger.debug "Fetching bookmarks from Delicious"
       bookmarks = []
-      doc = Nokogiri::XML(open("http://feeds.delicious.com/v2/rss/#{@username}?count=5"))
-      doc.xpath('//channel/item').each do |item|
+      doc = REXML::Document.new(open("http://feeds.delicious.com/v2/rss/#{@username}?count=5"))
+      doc.each_element('//channel/item') do |item|
         bookmarks << {
-          :title => (item/'title').first.content,
-          :url => (item/'link').first.content,
-          :date => Date.parse((item/'pubDate').first.content)
+          :title => item.get_text('title'),
+          :url => item.get_text('link'),
+          :date => Date.parse(item.get_text('pubDate').to_s)
         }
       end
       return bookmarks
