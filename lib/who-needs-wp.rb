@@ -22,6 +22,7 @@ require 'who-needs-wp/sidebar/twitter.rb'
 require 'who-needs-wp/sidebar/delicious.rb'
 require 'who-needs-wp/sidebar/recentposts.rb'
 require 'who-needs-wp/sidebar/pageindex.rb'
+require 'who-needs-wp/sidebar/latitude.rb'
 require 'who-needs-wp/templates.rb'
 
 module WhoNeedsWP
@@ -50,6 +51,9 @@ module WhoNeedsWP
     end
     if @options[:delicious]
       delicious = Delicious.new(@options[:delicious][:user])
+    end
+    if @options[:latitude]
+      Latitude.new(@options[:latitude])
     end
     Page.load
     Post.load
