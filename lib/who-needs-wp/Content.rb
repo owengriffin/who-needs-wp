@@ -54,7 +54,9 @@ module WhoNeedsWP
       content = extract_author(content)
       @tags = YahooTermExtractor.generate_keywords(content)
 
-      @markdown = MakersMark.generate(content)
+      @markdown = Kramdown::Document.new(content)
+      #,{:coderay => {:wrap => :div, :line_numbers => :inline,
+    #:line_number_start => 1, :tab_width => 8, :bold_every => 10, :css => :style}})
     end
 
     # Return the title of the content, based on the filename

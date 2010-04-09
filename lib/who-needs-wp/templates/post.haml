@@ -8,7 +8,7 @@
     by
     = post.author
   .content
-    ~ post.markdown
+    ~ post.markdown.to_html
 
 - if previous_post or next_post
   .navigation
