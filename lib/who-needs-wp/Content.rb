@@ -67,7 +67,7 @@ module WhoNeedsWP
 
     # Return the filename which will be use to save rendered content
     def generate_filename(filename)
-      File.dirname(filename) + "/" + File.basename(filename, ".markdown") + ".html"
+      File.dirname(filename) + "/" + File.basename(filename, ".markdown").gsub(/[?\/]/, '') + ".html"
     end
 
     # Generate a unique ID for this content

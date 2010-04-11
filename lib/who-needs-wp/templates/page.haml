@@ -2,8 +2,9 @@
 .page
   %h2.title
     %a{:href => "#{options[:url]}/#{page.filename[:generated]}"}= page.title
-  .author
-    by
-    = page.author
+  - if not page.author.empty?
+    .author
+      by
+      = page.author
   .content
     ~ page.markdown.to_html
