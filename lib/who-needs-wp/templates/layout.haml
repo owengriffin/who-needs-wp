@@ -1,4 +1,4 @@
-!!! Strict
+!!! 5
 %html
   %head
     - if options[:stylesheet] == nil or options[:stylesheet].empty?
@@ -17,14 +17,16 @@
     %meta{:"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
   %body
     = content
+    - if options[:google_analytics] != nil and not options[:google_analytics].empty?
+      %script{:src => 'http://www.google-analytics.com/ga.js', :type => 'text/javascript'}
+        = ""
 
-  - if options[:google_analytics] != nil and not options[:google_analytics].empty?
-    %script{:src => 'http://www.google-analytics.com/ga.js', :type => 'text/javascript'}/
-    :javascript
-      try {
-      var pageTracker = _gat._getTracker("#{options[:google_analytics]}");
-      pageTracker._trackPageview();
-      } catch(err) {}
+      :javascript
+        try {
+        var pageTracker = _gat._getTracker("#{options[:google_analytics]}");
+        pageTracker._trackPageview();
+        } catch(err) {}
+  
 
 
 
