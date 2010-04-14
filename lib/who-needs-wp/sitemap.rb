@@ -29,5 +29,10 @@ module WhoNeedsWP
     File.open("sitemap.xml", "w") do |file|
       file.puts document
     end
+
+    # Create a robots.txt which points to the sitemap.xml
+    File.open("robots.txt", "w") do |file|
+      file.puts "Sitemap: #{WhoNeedsWP::options[:url]}sitemap.xml"
+    end
   end
 end
