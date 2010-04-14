@@ -24,6 +24,10 @@ module WhoNeedsWP
     url.add_element("lastmod").text = Post.all[0].created_at.strftime('%Y-%m-%d')
     url.add_element("priority").text = "1.0"
     urlset.add(url)
-    puts document
+
+    # Write the XML document to a file
+    File.open("sitemap.xml", "w") do |file|
+      file.puts document
+    end
   end
 end
