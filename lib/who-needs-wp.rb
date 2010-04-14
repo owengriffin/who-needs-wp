@@ -14,6 +14,7 @@ require 'net/http'
 
 require 'who-needs-wp/css.rb'
 require 'who-needs-wp/keywords.rb'
+require 'who-needs-wp/sitemap.rb'
 require 'who-needs-wp/Content.rb'
 require 'who-needs-wp/content/Page.rb'
 require 'who-needs-wp/content/Post.rb'
@@ -70,6 +71,7 @@ module WhoNeedsWP
     Post.index
     self.index
     self.css
+    self.sitemap
 
     if @options[:upload]
       self.upload
