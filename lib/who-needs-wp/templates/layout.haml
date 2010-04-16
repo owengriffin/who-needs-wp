@@ -8,7 +8,7 @@
     - if defined? tags and tags != nil and tags.length > 0
       %meta{:name => "keywords", :content => tags.join(' ')}/
     - if defined? summary and summary != nil and !summary.empty?
-      %meta{:name => "description", :content => summary}/
+      %meta{:name => "description", :content => summary.gsub(/<\/?[^>]*>/, "")}/
     %title
       = options[:title]
       - if defined? title and title != nil and not title.empty?
