@@ -94,7 +94,7 @@ module WhoNeedsWP
     else
       contents << Page.all.first.html
     end
-    self.render_html("index.html", "index", contents, "", keywords)
+    self.render_html("index.html", "index", contents, "", keywords, @options[:index_summary])
   end
 
   def self.upload

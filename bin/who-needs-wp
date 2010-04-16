@@ -58,6 +58,11 @@ Choice.options do
     desc "Location to upload the output. To enable specify the --upload option. (Default: \"#{options[:ftp]}\")"
   end
 
+  option :use_term_extractor do
+    long '--use-term-extractor'
+    desc "Generate tags for each post / page using the Yahoo Term Extractor API."
+  end
+
   option :help do
     long '--help'
     desc 'Show this message'

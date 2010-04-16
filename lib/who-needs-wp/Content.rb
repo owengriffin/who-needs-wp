@@ -42,7 +42,7 @@ module WhoNeedsWP
       # Append the full site URL to any links referring to the root folder
       @html.gsub!(/(href|src)=\"\//, '\1="' + WhoNeedsWP::options[:url] + '/')
       # Render the content HTML within a page
-      WhoNeedsWP::render_html(@filename[:generated], "page", @html, @title, @tags)
+      WhoNeedsWP::render_html(@filename[:generated], "page", @html, @title, @tags, @summary)
     end
 
     private
@@ -52,7 +52,11 @@ module WhoNeedsWP
       content = File.read(@filename[:original])
       # Remove the author, if there is one from the Markdown
       content = extract_author(content)
-      @tags = YahooTermExtractor.generate_keywords(content)
+      if WhoNeedsWP::options[:use_term_extractor]
+        @tags = YahooTermExtractor.generate_keywords(content)
+      else
+        @tags = []
+      end
 
       @markdown = Kramdown::Document.new(content)
       #,{:coderay => {:wrap => :div, :line_numbers => :inline,
