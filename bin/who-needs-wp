@@ -63,6 +63,11 @@ Choice.options do
     desc "Generate tags for each post / page using the Yahoo Term Extractor API."
   end
 
+  option :index_page do
+    long '--index-page=filename'
+    desc "Override the default index page for the site. If not set then the first page in the site is used."
+  end
+
   option :help do
     long '--help'
     desc 'Show this message'

@@ -92,7 +92,16 @@ module WhoNeedsWP
         keywords = keywords + post.tags
       end
     else
-      contents << Page.all.first.html
+      index_page = Page.all.first
+      if @options[:index_page]
+        Page.all.each do |page|
+          if page.filename[:original] == @options[:index_page]
+            index_page = page
+            break
+          end
+        end
+      end
+      contents = index_page.html
     end
     self.render_html("index.html", "index", contents, "", keywords, @options[:index_summary])
   end
