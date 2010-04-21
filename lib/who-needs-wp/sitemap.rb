@@ -21,7 +21,9 @@ module WhoNeedsWP
     url = REXML::Element.new("url")
     
     url.add_element("loc").text = WhoNeedsWP::options[:url] + "/index.html"
-    url.add_element("lastmod").text = Post.all[0].created_at.strftime('%Y-%m-%d')
+    if Post.all.length > 0 
+      url.add_element("lastmod").text = Post.all[0].created_at.strftime('%Y-%m-%d')
+    end
     url.add_element("priority").text = "1.0"
     urlset.add(url)
 
