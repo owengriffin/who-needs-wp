@@ -65,7 +65,7 @@ module WhoNeedsWP
 
     # Return the title of the content, based on the filename
     def generate_title(filename)
-      match = filename.match(/.*\/([^\.]*)/)
+      match = filename.match(/.*\/(.*)\.[^\.]*$/)
       return match[1].gsub(/_/, ' ')
     end
 
