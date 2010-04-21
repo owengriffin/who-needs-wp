@@ -54,6 +54,8 @@ module WhoNeedsWP
       content = extract_author(content)
       if WhoNeedsWP::options[:use_term_extractor]
         @tags = YahooTermExtractor.generate_keywords(content)
+      elsif WhoNeedsWP::options[:extract_tags]
+        content = extract_tags(content)
       else
         @tags = []
       end
@@ -92,6 +94,19 @@ module WhoNeedsWP
         @author = match[1]
         # Remove the author from the post text
         content.gsub! /^[aA]uthor: .*$/, ''
+      end
+      return content
+    end
+
+    # Read any tags / keywords from the Markdown content.
+    def extract_tags(content)
+      match = content.match(/^[tT]ags: (.*)$/o)
+      if match
+        @tags = match[1].split.collect! {|tag| tag.downcase }
+        # Remove the author from the post text
+        content.gsub! /^[tT]ags: .*$/, ''
+      else
+        @tags = []
       end
       return content
     end

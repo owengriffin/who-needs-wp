@@ -63,6 +63,11 @@ Choice.options do
     desc "Generate tags for each post / page using the Yahoo Term Extractor API."
   end
 
+  option :extract_tags do
+    long '--extract-tags'
+    desc "Read the tags for the content from Markdown. Any words in a line starting with 'Tag: ' will be used as tags."
+  end
+
   option :index_page do
     long '--index-page=filename'
     desc "Override the default index page for the site. If not set then the first page in the site is used."
