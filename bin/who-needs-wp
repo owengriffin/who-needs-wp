@@ -55,7 +55,7 @@ Choice.options do
 
   option :upload_url do
     long '--upload-url=SCP address'
-    desc "Location to upload the output. To enable specify the --upload option. (Default: \"#{options[:ftp]}\")"
+    desc "Location to upload the output. To enable specify the --upload option. (Default: \"#{options[:upload_url]}\")"
   end
 
   option :use_term_extractor do
