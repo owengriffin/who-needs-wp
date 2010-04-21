@@ -68,6 +68,11 @@ Choice.options do
     desc "Read the tags for the content from Markdown. Any words in a line starting with 'Tag: ' will be used as tags."
   end
 
+  option :use_technorati_links do
+    long '--use-technorati-links'
+    desc "All tag links will link to Technorati"
+  end
+
   option :index_page do
     long '--index-page=filename'
     desc "Override the default index page for the site. If not set then the first page in the site is used."
