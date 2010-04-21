@@ -53,8 +53,8 @@ Choice.options do
     desc 'Upload the output to an FTP address.'
   end
 
-  option :remote_addr do
-    long '--remote-addr=username'
+  option :upload_url do
+    long '--upload-url=SCP address'
     desc "Location to upload the output. To enable specify the --upload option. (Default: \"#{options[:ftp]}\")"
   end
 

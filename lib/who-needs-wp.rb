@@ -98,7 +98,7 @@ module WhoNeedsWP
   end
 
   def self.upload
-    match = @options[:remote_addr].match(/(.*)@(.*):(.*)/)
+    match = @options[:upload_url].match(/(.*)@(.*):(.*)/)
     username = match[1]
     host = match[2]
     remote_path = match[3]
