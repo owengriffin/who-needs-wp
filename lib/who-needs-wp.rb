@@ -1,6 +1,5 @@
-# -*- coding: undecided -*-
+# -*- coding: utf-8 -*-
 require 'rubygems'
-require 'rdiscount'
 require 'haml'
 require 'open-uri'
 require 'sass'
@@ -24,6 +23,7 @@ require 'who-needs-wp/sidebar/delicious.rb'
 require 'who-needs-wp/sidebar/recentposts.rb'
 require 'who-needs-wp/sidebar/pageindex.rb'
 require 'who-needs-wp/sidebar/latitude.rb'
+require 'who-needs-wp/sidebar/tagcloud.rb'
 require 'who-needs-wp/templates.rb'
 
 module WhoNeedsWP
@@ -63,6 +63,9 @@ module WhoNeedsWP
     end
     if Page.all.length > 0
       PageIndex.new
+    end
+    if @options[:tag_cloud]
+      TagCloud.new
     end
     Page.render_all
     Post.render_all

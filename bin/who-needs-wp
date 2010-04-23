@@ -73,6 +73,11 @@ Choice.options do
     desc "All tag links will link to Technorati"
   end
 
+  option :tag_cloud do
+    long '--tag-cloud'
+    desc "Display all tags in a cloud in the sidebar"
+  end
+
   option :index_page do
     long '--index-page=filename'
     desc "Override the default index page for the site. If not set then the first page in the site is used."

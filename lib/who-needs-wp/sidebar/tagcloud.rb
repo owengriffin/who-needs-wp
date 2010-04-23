@@ -9,7 +9,9 @@ module WhoNeedsWP
 
     # See Sidebar.render
     def render
-      WhoNeedsWP::render_template("tagcloud", { :tags => tags })
+      generate
+      @logger.debug @tags
+      WhoNeedsWP::render_template("tagcloud", { :tags => @tags })
     end
 
     private
@@ -24,8 +26,32 @@ module WhoNeedsWP
       end
       if found == nil
         found = {:name => name, :count => 0}
+        @tags << found
       end
       found[:count] = found[:count] + 1
+    end
+
+    def allocate_sizes
+      min = 0
+      max = 0
+      @tags.each do |tag|
+        min = tag[:count] if tag[:count] < min
+        max = tag[:count] if tag[:count] > max
+      end
+      distribution = (max - min) / 3
+      @tags.each do |tag|
+        if tag[:count] == min
+          tag[:size] = 'not-very-popular'
+        elsif tag[:count] == max
+          tag[:size] = 'ultra-popular'
+        elsif tag[:count] > (min + (distribution * 2))
+          tag[:size] = 'popular'
+        elsif tag[:count] > (min + distribution)
+          tag[:size] = 'somewhat-popular'
+        else
+          tag[:size] = 'not-popular'
+        end
+      end
     end
 
     def generate
@@ -36,8 +62,9 @@ module WhoNeedsWP
       end
       # Ensure that the most frequent tags occur first
       @tags.sort! { |tag0, tag1|
-        tag0[:count] <=> tag1[:count]
+        tag1[:count] <=> tag0[:count]
       }
+      allocate_sizes
     end
   end
 end

@@ -1,0 +1,6 @@
+%h2 Tag Cloud
+%ol.tag-cloud
+  - tags.each do |tag|
+    %li{:class => tag[:size]}
+      %span= "#{tag[:count]} posts are tagged with "
+      %a{:rel => 'tag', :href => '#', :title => tag[:name]}= tag[:name]
