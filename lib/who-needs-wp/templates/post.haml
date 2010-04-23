@@ -17,6 +17,22 @@
   .content
     ~ post.markdown.to_html
 
+- if WhoNeedsWP::options[:disqus]
+  #disqus_thread
+  :javascript
+    var disqus_container_id = 'disqus_thread';
+    var disqus_developer = #{WhoNeedsWP::options[:disqus_developer] ? 1 : 0};
+    var disqus_identifier = "#{post.id}";  
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://#{WhoNeedsWP::options[:disqus]}.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  %a{:href => "http://disqus.com", :class => "dsq-brlink"} 
+    blog comments powered by 
+    %span{:class => "logo-disqus"} Disqus
+
+
 - if previous_post or next_post
   .navigation
     %h3 Navigation

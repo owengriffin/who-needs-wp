@@ -83,6 +83,16 @@ Choice.options do
     desc "Override the default index page for the site. If not set then the first page in the site is used."
   end
 
+  option :disqus do
+    long '--disqus=username'
+    desc "Enable the Disqus (http://disqus.com/) comments system."
+  end
+
+  option :disqus_developer do
+    long '--disqus-developer'
+    desc 'Enable developer mode for Disqus. Required when running the site from localhost'
+  end
+
   option :help do
     long '--help'
     desc 'Show this message'
