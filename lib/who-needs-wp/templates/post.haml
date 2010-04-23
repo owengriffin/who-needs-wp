@@ -7,7 +7,7 @@
       - if WhoNeedsWP::options[:use_technorati_links]
         %a{:href => "http://technorati.com/tag/#{tag}", :rel => "tag"}= "#{tag}"
       - else
-        = tag
+        %a{:href => "#{WhoNeedsWP::options[:url]}/tags/#{tag}.html", :rel => "tag"}= "#{tag}"
   .date
     = post.created_at.strftime("%B %d, %Y")
   
