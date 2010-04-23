@@ -25,14 +25,22 @@ module WhoNeedsWP
     end
 
     # See Content.render_content
-    def render(previous_post, next_post)
-      @html = WhoNeedsWP::render_template("post", {
+    def render(previous_post, next_post, include_disqus = false)
+      html = WhoNeedsWP::render_template("post", {
         :post => self,
         :title => @title,
         :previous_post => previous_post,
         :next_post => next_post
       })
+      if include_disqus
+        @html = html + WhoNeedsWP::render_template("disqus", {
+          :post => self
+        })
+      else
+        @html = html
+      end
       super()
+      @html = html
     end
 
     # Render all the posts loaded
@@ -41,7 +49,7 @@ module WhoNeedsWP
         post = @@posts[index]
         previous_post = @@posts[index + 1] if index + 1 < @@posts.length
         next_post = @@posts[index - 1] if index > 0
-        post.render(previous_post, next_post)
+        post.render(previous_post, next_post, true)
       end
     end
 
