@@ -10,13 +10,20 @@ module WhoNeedsWP
     # See Sidebar.render
     def render
       generate
-      @logger.debug @tags
       WhoNeedsWP::render_template("tagcloud", { :tags => @tags })
+    end
+
+    def generate_pages
+      FileUtils.mkdir_p "tags" if not File.directory? "tags"
+      @tags.each do |tag|
+        contents = WhoNeedsWP::render_template("tag", { :tag => tag })
+        WhoNeedsWP.render_html("tags/#{tag[:name]}.html", "tag", contents, "", '', "Posts which are tagged '#{tag[:name]}'")
+      end
     end
 
     private
 
-    def create_and_increment(name)
+    def create_and_increment(name, post)
       found = nil
       @tags.each do |tag|
         if tag[:name] == name
@@ -25,8 +32,11 @@ module WhoNeedsWP
         end
       end
       if found == nil
-        found = {:name => name, :count => 0}
+        found = {:name => name, :count => 0, :posts => []}
         @tags << found
+      end
+      if not found[:posts].include? post
+        found[:posts] << post
       end
       found[:count] = found[:count] + 1
     end
@@ -57,7 +67,7 @@ module WhoNeedsWP
     def generate
       Post.all.each do |post|
         post.tags.each do |tag|
-          create_and_increment(tag)
+          create_and_increment(tag, post)
         end
       end
       # Ensure that the most frequent tags occur first

@@ -65,13 +65,17 @@ module WhoNeedsWP
       PageIndex.new
     end
     if @options[:tag_cloud]
-      TagCloud.new
+      cloud = TagCloud.new
+      
     end
     Page.render_all
     Post.render_all
     Post.atom
     Post.rss
     Post.index
+    if cloud != nil or @options[:tag_cloud]
+      cloud.generate_pages
+    end
     self.index
     self.css
     self.sitemap
