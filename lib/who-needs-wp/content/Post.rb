@@ -40,7 +40,7 @@ module WhoNeedsWP
       @@posts.each_index do |index|
         post = @@posts[index]
         previous_post = @@posts[index + 1] if index + 1 < @@posts.length
-        next_post = @@posts[index - 1] if index > 1
+        next_post = @@posts[index - 1] if index > 0
         post.render(previous_post, next_post)
       end
     end
