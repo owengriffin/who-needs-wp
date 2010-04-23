@@ -17,7 +17,8 @@ module WhoNeedsWP
       FileUtils.mkdir_p "tags" if not File.directory? "tags"
       @tags.each do |tag|
         contents = WhoNeedsWP::render_template("tag", { :tag => tag })
-        WhoNeedsWP.render_html("tags/#{tag[:name]}.html", "tag", contents, "", '', "Posts which are tagged '#{tag[:name]}'")
+        title = "Posts which are tagged '#{tag[:name]}'"
+        WhoNeedsWP.render_html("tags/#{tag[:name]}.html", "tag", contents, title, '', title)
       end
     end
 
