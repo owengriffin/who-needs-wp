@@ -1,0 +1,8 @@
+
+%h2= "Posts tagged '#{tag[:name]}'"
+%ul
+  - if tag[:posts] != nil
+    - tag[:posts].each do |post|
+      %li
+        %a.title{:href => "#{options[:url]}/#{post.filename[:generated]}", :title => post.title}= post.title
+        %p= post.summary
