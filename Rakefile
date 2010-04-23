@@ -10,7 +10,6 @@ begin
     gem.email = "owen.griffin@gmail.com"
     gem.homepage = "http://github.com/owengriffin/who-needs-wp"
     gem.authors = ["Owen Griffin"]
-    gem.add_dependency('rdiscount', '>= 1.5.8')
     gem.add_dependency('haml', '>= 2.2.20')
     gem.add_dependency('twitter', '>= 0.8.4')
     gem.add_dependency('choice', '>= 0.1.4')
