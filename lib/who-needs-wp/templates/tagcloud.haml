@@ -3,4 +3,4 @@
   - tags.each do |tag|
     %li{:class => tag[:size]}
       %span= "#{tag[:count]} posts are tagged with "
-      %a{:rel => 'tag', :href => "#{options[:url]}/tags/#{tag[:name]}", :title => tag[:name]}= tag[:name]
+      %a{:rel => 'tag', :href => "#{options[:url]}/tags/#{tag[:name]}.html", :title => tag[:name]}= tag[:name]
