@@ -93,6 +93,11 @@ Choice.options do
     desc 'Enable developer mode for Disqus. Required when running the site from localhost'
   end
 
+  option :piwik do
+    long '--piwik-url'
+    desc 'The domain and path hosting the the Piwick used to track website statistics. This should be a URL excluding "http://" and "https//". E.g. "piwik.domain.com/"'
+  end
+
   option :help do
     long '--help'
     desc 'Show this message'
