@@ -28,18 +28,29 @@
         var pageTracker = _gat._getTracker("#{options[:google_analytics]}");
         pageTracker._trackPageview();
         } catch(err) {}
-      - if WhoNeedsWP::options[:disqus]
-        :javascript
-          (function() {
-          var links = document.getElementsByTagName('a');
-          var query = '?';
-          for(var i = 0; i < links.length; i++) {
-          if(links[i].href.indexOf('#disqus_thread') >= 0) {
-          query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
-          }
-          }
-          document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/#{WhoNeedsWP::options[:disqus]}/get_num_replies.js' + query + '"></' + 'script>');
-          })();
+    - if WhoNeedsWP::options[:piwik]
+      :javascript
+        var pkBaseURL = (("https:" == document.location.protocol) ? "https://#{WhoNeedsWP::options[:piwik]}" : "http://#{WhoNeedsWP::options[:piwik]}");
+        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+
+      :javascript
+        try {
+        var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+        piwikTracker.trackPageView();
+        piwikTracker.enableLinkTracking();
+        } catch( err ) {}
+
+    - if WhoNeedsWP::options[:disqus]
+      :javascript
+        (function() {
+        var links = document.getElementsByTagName('a');
+        var query = '?';
+        for(var i = 0; i < links.length; i++) {
+        if(links[i].href.indexOf('#disqus_thread') >= 0) {
+        query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+        } }
+        document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/#{WhoNeedsWP::options[:disqus]}/get_num_replies.js' + query + '"></' + 'script>');
+        })();
       
   
 
