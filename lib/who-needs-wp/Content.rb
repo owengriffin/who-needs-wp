@@ -38,7 +38,7 @@ module WhoNeedsWP
     # Render this peice of content
     def render
       # Set the summary to be the first paragraph
-      @summary = $1 if @html =~ (/(?:<p>)(.*?)(?:<\/p>)/)
+      @summary = $1 if @html =~ (/(?:<p>)(.*?)(?:<\/p>)/m)
       # Append the full site URL to any links referring to the root folder
       @html.gsub!(/(href|src)=\"\//, '\1="' + WhoNeedsWP::options[:url] + '/')
       # Render the content HTML within a page
