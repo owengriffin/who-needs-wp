@@ -98,6 +98,11 @@ Choice.options do
     desc 'The domain and path hosting the the Piwick used to track website statistics. This should be a URL excluding "http://" and "https//". E.g. "piwik.domain.com/"'
   end
 
+  option :new_post do
+    long '--new-post'
+    desc 'Create a new post for today\'s date.'
+  end
+
   option :help do
     long '--help'
     desc 'Show this message'
@@ -118,4 +123,8 @@ end
 Choice.choices.each do |key, value|
   options[key.to_sym] = value
 end
-WhoNeedsWP::generate(options)
+if options[:new_post]
+  WhoNeedsWP::new_post(options[:new_post])
+else
+  WhoNeedsWP::generate(options)
+end

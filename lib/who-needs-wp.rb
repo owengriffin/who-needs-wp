@@ -33,6 +33,28 @@ module WhoNeedsWP
 
   # Logger
   @logger = Logger.new(STDOUT)
+
+  def self.new_post(title)
+    safe_title = title.gsub(/ /, '_')
+    now = Time.new
+    dir = "posts/#{now.strftime('%Y/%m/%d')}"
+    filename = "#{dir}/#{safe_title}.markdown"
+    
+    count = 0
+    splits = dir.split('/')
+    splits.each do |d| 
+      path = splits[0..count].join('/')
+      if not File.exists? path
+        @logger.debug "Creating: #{path}"
+        Dir.mkdir path 
+      end
+      count = count + 1
+    end
+
+    File.new(filename, "w")
+    @logger.info("Created file #{filename}")
+  end
+
   # Generate the site with the specified options
   def self.generate(options)
     @options = options
