@@ -1,10 +1,12 @@
 module WhoNeedsWP
   # A sidebar component to display a cloud of tags
   class TagCloud < Sidebar
+
     # Create a new tag cloud sidebar
     def initialize
       super()
       @tags = []
+      @generated = false
     end
 
     # See Sidebar.render
@@ -14,8 +16,10 @@ module WhoNeedsWP
     end
 
     def generate_pages
+      generate
       FileUtils.mkdir_p "tags" if not File.directory? "tags"
       @tags.each do |tag|
+        @logger.info "Rendering page for #{tag[:name]}"
         contents = WhoNeedsWP::render_template("tag", { :tag => tag })
         title = "Posts which are tagged '#{tag[:name]}'"
         WhoNeedsWP.render_html("tags/#{tag[:name]}.html", "tag", contents, title, '', title)
@@ -66,16 +70,19 @@ module WhoNeedsWP
     end
 
     def generate
-      Post.all.each do |post|
-        post.tags.each do |tag|
-          create_and_increment(tag, post)
+      if not @generated
+        Post.all.each do |post|
+          post.tags.each do |tag|
+            create_and_increment(tag, post)
+          end
         end
+        # Ensure that the most frequent tags occur first
+        @tags.sort! { |tag0, tag1|
+          tag1[:count] <=> tag0[:count]
+        }
+        allocate_sizes
+        @generated = true
       end
-      # Ensure that the most frequent tags occur first
-      @tags.sort! { |tag0, tag1|
-        tag1[:count] <=> tag0[:count]
-      }
-      allocate_sizes
     end
   end
 end

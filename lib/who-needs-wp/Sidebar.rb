@@ -11,6 +11,18 @@ module WhoNeedsWP
     def self.render_all
       if @@generated == nil
         retval = []
+        # Remove any sidebar content which is not in the sidebar list
+        @@content.delete_if do |item|
+          WhoNeedsWP::options[:sidebar].index(item.class.to_s.match(/::(.*)/)[1]) == nil
+        end
+        # Order the sidebar content based on the order in the option
+        @@content.sort! { |a, b|
+          a_classname = a.class.to_s.match(/::(.*)/)[1]
+          b_classname = b.class.to_s.match(/::(.*)/)[1]
+          a = WhoNeedsWP::options[:sidebar].index(a_classname)
+          b = WhoNeedsWP::options[:sidebar].index(b_classname)
+          a <=> b
+        }
         @@content.each do |content|
           retval << content.render
         end

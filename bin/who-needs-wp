@@ -9,6 +9,7 @@ PROGRAM_VERSION = "0.5.0"
 
 if File.exists? ".who-needs-wp.yaml"
   options = YAML.load_file('.who-needs-wp.yaml') 
+  options[:sidebar] = ["PageIndex", "RecentPosts"] if options[:sidebar] == nil
 else
   options = {}
 end
@@ -96,6 +97,12 @@ Choice.options do
   option :piwik do
     long '--piwik-url'
     desc 'The domain and path hosting the the Piwick used to track website statistics. This should be a URL excluding "http://" and "https//". E.g. "piwik.domain.com/"'
+  end
+
+  option :sidebar do
+    long '--sidebar'
+    desc 'A list of Sidebar classes in order of occurance'
+    default options[:sidebar]
   end
 
   option :new_post do

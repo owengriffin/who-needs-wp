@@ -88,7 +88,6 @@ module WhoNeedsWP
     end
     if @options[:tag_cloud]
       cloud = TagCloud.new
-      
     end
     Page.render_all
     Post.render_all
@@ -96,6 +95,7 @@ module WhoNeedsWP
     Post.rss
     Post.index
     if cloud != nil or @options[:tag_cloud]
+      @logger.info "Generating tag cloud"
       cloud.generate_pages
     end
     self.index
