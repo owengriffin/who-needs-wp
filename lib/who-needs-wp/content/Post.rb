@@ -14,7 +14,7 @@ module WhoNeedsWP
 
     # Load all pages
     def self.load
-      Dir.glob('posts/**/*.markdown').each do |filename|
+      Dir.glob('posts/**/*.{markdown,md}').each do |filename|
         match = filename.match(/([0-9]{4})\/([0-9]{2})\/([0-9]{2})\/([^\.]*)/)
         date = DateTime.new(match[1].to_i, match[2].to_i, match[3].to_i)
         @@posts << Post.new(filename, date)

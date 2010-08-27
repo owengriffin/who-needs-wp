@@ -4,7 +4,7 @@ module WhoNeedsWP
     @@pages = []
     # Load all pages
     def self.load
-      Dir.glob('pages/*.markdown').each do |filename|
+      Dir.glob('pages/*.{markdown,md}').each do |filename|
         @@pages << Page.new(filename)
       end
       @@pages.sort! { |a, b| a.title <=> b.title }
