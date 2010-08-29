@@ -27,6 +27,12 @@ Choice.options do
     default options[:stylesheet]
   end
 
+  option :reset_stylesheet do
+    long '--reset-stylesheet'
+    desc 'Include a CSS reset stylesheet'
+    default true
+  end
+
   option :url do
     short '-u'
     long '--url-prefix=URL'

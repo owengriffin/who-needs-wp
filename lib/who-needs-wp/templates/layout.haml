@@ -1,8 +1,6 @@
 !!! 5
 %html
   %head
-    - if options[:stylesheet] == nil or options[:stylesheet].empty?
-      %link{:rel => "stylesheet", :type => "text/css", :href => "#{options[:url]}/style.css"}/
     %link{:rel => "alternate", :type => "application/atom+xml", :href => "#{options[:url]}/posts.atom", :title => "#{options[:title]} - Atom"}/
     %link{:rel => "alternate", :type => "application/rss+xml", :href => "#{options[:url]}/posts.rss", :title => "#{options[:title]} - RSS"}/
     - if defined? tags and tags != nil and tags.length > 0
@@ -15,7 +13,7 @@
         \-
         = title
     - if defined? options[:stylesheet]
-      %link{:rel => "stylesheet", :type => "text/css", :href => "#{options[:url]}/#{options[:stylesheet]}"}/
+      %link{:rel => "stylesheet", :type => "text/css", :href => "#{options[:url]}/style.css"}/
     %meta{:"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
   %body  
     = content
