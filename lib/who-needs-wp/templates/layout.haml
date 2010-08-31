@@ -12,8 +12,8 @@
       - if defined? title and title != nil and not title.empty?
         \-
         = title
-    - if defined? options[:stylesheet]
-      %link{:rel => "stylesheet", :type => "text/css", :href => "#{options[:url]}/style.css"}/
+    
+    %link{:rel => "stylesheet", :type => "text/css", :href => "#{options[:url]}/style.css"}/
     %meta{:"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
   %body  
     = content
