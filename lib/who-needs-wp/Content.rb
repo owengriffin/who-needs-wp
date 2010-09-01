@@ -52,6 +52,7 @@ module WhoNeedsWP
       content = File.read(@filename[:original])
       # Remove the author, if there is one from the Markdown
       content = extract_author(content)
+      content = extract_summary(content)
       if WhoNeedsWP::options[:use_term_extractor]
         @tags = YahooTermExtractor.generate_keywords(content)
       elsif WhoNeedsWP::options[:extract_tags]
@@ -107,6 +108,16 @@ module WhoNeedsWP
         content.gsub! /^[tT]ags: .*$/, ''
       else
         @tags = []
+      end
+      return content
+    end
+
+    # Extract the summary from the Markdown content
+    def extract_summry(content)
+      match = content.match(/^[sS]ummary: (.*)$/o)
+      if match
+        @summary = match[1]
+        content.gsub! /^[sS]ummary: .*$/, ''
       end
       return content
     end
