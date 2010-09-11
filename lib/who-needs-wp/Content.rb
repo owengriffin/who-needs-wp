@@ -113,7 +113,7 @@ module WhoNeedsWP
     end
 
     # Extract the summary from the Markdown content
-    def extract_summry(content)
+    def extract_summary(content)
       match = content.match(/^[sS]ummary: (.*)$/o)
       if match
         @summary = match[1]
