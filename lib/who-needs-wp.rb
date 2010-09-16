@@ -61,10 +61,19 @@ module WhoNeedsWP
     if @options[:url] == '/'
       @options[:url] = ''
     end
+
+    online = true
+    begin
+      Socket.getaddrinfo('owengriffin.com', 'http')
+    rescue SocketError
+      @logger.warn "System is offline. Some resources may be skipped"
+      online = false
+    end
+
     self.load_templates
     #self.load_posts
 
-    if @options[:twitter]
+    if @options[:twitter] and online
       if @options[:twitter][:username]
         TwitterFeed.new(@options[:twitter][:username])
       end
@@ -72,10 +81,10 @@ module WhoNeedsWP
         TwitterSearch.new(@options[:twitter][:search])
       end
     end
-    if @options[:delicious]
+    if @options[:delicious] and online
       delicious = Delicious.new(@options[:delicious][:user])
     end
-    if @options[:latitude]
+    if @options[:latitude] and online
       Latitude.new(@options[:latitude])
     end
     Page.load
