@@ -5,5 +5,6 @@
       %li
         %a.title{:href => "#{options[:url]}/#{post.filename[:generated]}", :title => post.title}= post.title
         %span.date= post.created_at.strftime('%Y-%m-%d')
+        %span.summary= post.summary
     %li
       %a{:href => "#{options[:url]}/posts/index.html", :title => "All posts"} more
