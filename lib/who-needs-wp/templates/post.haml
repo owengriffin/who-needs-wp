@@ -2,21 +2,22 @@
 .post
   %h2.title
     %a{:href => "#{post.url}"}= post.title
-  .tags
-    - post.tags.each do |tag|
-      - if WhoNeedsWP::options[:use_technorati_links]
-        %a{:href => "http://technorati.com/tag/#{tag}", :rel => "tag"}= "#{tag}"
-      - else
-        %a{:href => "#{WhoNeedsWP::options[:url]}/tags/#{tag}.html", :rel => "tag"}= "#{tag}"
   .date
     = post.created_at.strftime("%B %d, %Y")
-  
   .author
     by
     = post.author
   .content
     ~ post.markdown.to_html
-
+  .tags
+    %h3 Tags
+    %ul
+      - post.tags.each do |tag|
+        %li
+          - if WhoNeedsWP::options[:use_technorati_links]
+            %a{:href => "http://technorati.com/tag/#{tag}", :rel => "tag"}= "#{tag}"
+          - else
+            %a{:href => "#{WhoNeedsWP::options[:url]}/tags/#{tag}.html", :rel => "tag"}= "#{tag}"
 - if previous_post or next_post
   .navigation
     %h3 Navigation

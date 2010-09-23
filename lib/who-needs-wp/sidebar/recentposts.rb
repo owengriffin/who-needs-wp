@@ -3,7 +3,7 @@ module WhoNeedsWP
   class RecentPosts < Sidebar
     # See Sidebar.render
     def render
-      WhoNeedsWP::render_template("recentposts", { :posts => WhoNeedsWP::Post.all[0..5] })
+      WhoNeedsWP::render_template("recentposts", { :posts => WhoNeedsWP::Post.all[0..10] })
     end
   end
 end
